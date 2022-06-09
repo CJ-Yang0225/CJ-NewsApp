@@ -2,7 +2,7 @@
   "name": "cj-news.app",
   "version": "1.0.0",
   "private": true,
-  "license": "MIT",
+  "license": "ISC",
   "scripts": {
     "dev": "webpack serve --config ./build/webpack.dev.js",
     "build": "webpack --config ./build/webpack.prod.js"
@@ -14,7 +14,10 @@
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
+    "ejs": "^3.1.8",
+    "ejs-loader": "^0.5.0",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
     "node-sass": "^7.0.1",
     "postcss-loader": "^7.0.0",
     "sass-loader": "^13.0.0",

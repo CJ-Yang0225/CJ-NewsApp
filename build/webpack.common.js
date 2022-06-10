@@ -28,7 +28,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'),
       filename: 'index.html',
-      title: '焦點新聞',
+      title: '頭條新聞',
       chunks: ['index', 'common'],
       chunksSortMode: 'manual',
       minify: {

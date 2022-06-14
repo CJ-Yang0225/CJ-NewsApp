@@ -79,23 +79,6 @@ module.exports = {
         },
       },
       {
-        test: /\.(css|scss|sass)$/,
-        // reverse order
-        use: [
-          'style-loader', // Creates `style` nodes from JS strings
-          'css-loader', // Translates CSS into CommonJS
-          {
-            loader: 'postcss-loader', // Add vendor prefixes to CSS rules using autoprefixer
-            options: {
-              postcssOptions: {
-                plugins: ['autoprefixer'],
-              },
-            },
-          },
-          'sass-loader', // Compiles Sass/Scss to CSS
-        ],
-      },
-      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,

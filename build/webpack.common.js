@@ -29,7 +29,7 @@ module.exports = {
       template: path.resolve(__dirname, '../public/index.html'),
       filename: 'index.html',
       title: '頭條新聞',
-      chunks: ['index', 'common'],
+      chunks: ['common', 'index'],
       chunksSortMode: 'manual',
       minify: {
         removeComments: true,
@@ -41,7 +41,7 @@ module.exports = {
       template: path.resolve(__dirname, '../public/detail.html'),
       filename: 'detail.html',
       title: '新聞內容',
-      chunks: ['detail', 'common'],
+      chunks: ['common', 'detail'],
       chunksSortMode: 'manual',
       minify: {
         removeComments: true,
@@ -53,7 +53,7 @@ module.exports = {
       template: path.resolve(__dirname, '../public/collections.html'),
       filename: 'collections.html',
       title: '已收藏的新聞',
-      chunks: ['collections', 'common'],
+      chunks: ['common', 'collections'],
       chunksSortMode: 'manual',
       minify: {
         removeComments: true,

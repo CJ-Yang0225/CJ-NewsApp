@@ -101,8 +101,8 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.tpl$/,
-        loader: 'ejs-loader',
+        test: /.tpl$/,
+        type: 'asset/source',
       },
     ],
   },

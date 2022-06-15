@@ -41,7 +41,6 @@ module.exports = merge(commonConfig, {
     hot: true,
     open: false,
     compress: true,
-    host: 'localhost',
     port: 3000,
     static: {
       directory: path.resolve(__dirname, '../public'),

@@ -1,10 +1,8 @@
 import '@/styles/resets.css';
 import '@/styles/border.css';
-import '@/styles/globals.scss';
+import '@/styles/globals.css';
 
 import FastClick from './fastclick';
-
-console.log('common loaded');
 
 window.addEventListener(
   'load',
@@ -21,8 +19,5 @@ document.documentElement.addEventListener(
       e.preventDefault();
     }
   },
-  false
+  { passive: false }
 );
-
-document.documentElement.style.fontSize =
-  document.documentElement.clientWidth / 37.5 + 'px'; // iPhone6: 375 x 667

@@ -10,7 +10,7 @@ import Header from '../components/Header';
   init();
 
   function render() {
-    const headerTpl = Header.setState({
+    const headerTpl = Header.setProps({
       title: '頭條新聞',
       backUrl: 'javascript:;',
       showBackIcon: false,

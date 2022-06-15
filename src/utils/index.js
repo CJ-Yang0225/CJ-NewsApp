@@ -1,6 +1,6 @@
-function injectTpl(template, props) {
+function injectTpl(template, data) {
   return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {
-    return props[key.trim()];
+    return data[key.trim()];
   });
 }
 

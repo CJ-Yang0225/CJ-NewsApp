@@ -1,0 +1,27 @@
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--bg-color-dark);
+  color: var(--title-text-dark);
+  z-index: 99;
+  box-shadow: 0 1px 3px #ffffff1f, 0 1px 2px #ffffff3d;
+}
+
+.header__logo-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .header__title {
+    margin-left: 0.8rem;
+    font-weight: 700;
+    font-size: 2.4rem;
+  }
+
+  .icon {
+    color: var(--logo-color-dark);
+    font-size: 3.6rem;
+  }
+}

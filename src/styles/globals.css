@@ -13,7 +13,7 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px; /* Preferred icon size */
+  font-size: 2.4rem; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -37,4 +37,45 @@
 ::before,
 ::after {
   box-sizing: border-box;
+}
+
+:root {
+  --bg-color-dark: #1a1b22;
+  --title-text-dark: #ffffff;
+  --content-text-dark: #ffffff;
+
+  --logo-color-dark: #e62117;
+
+  --search-bar-bg-dark: #23252f;
+  --search-bar-text-dark: #858c94;
+
+  --label-width: 8rem;
+  --label-spacing: 0.8rem;
+  --label-bg-dark: #1a1b22;
+  --label-text-dark: #ff6861;
+  --label-border-dark: #ff6861;
+  --label-bg-dark_activated: #ff6861;
+  --label-text-dark_activated: #ffffff;
+}
+
+html {
+  font-size: calc(100vw / 37.5);
+
+  @media screen and (min-width: 768px) {
+    font-size: 12.5px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    font-size: 15px;
+  }
+}
+
+body {
+  background-color: var(--bg-color-dark);
+}
+
+.icon-link {
+  display: inline-block;
+  font-size: 0;
+  color: currentColor;
 }

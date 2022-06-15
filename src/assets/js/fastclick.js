@@ -40,7 +40,7 @@ function FastClick(layer, options) {
   layer.addEventListener('touchstart', this.onTouchStart, { passive: false });
   layer.addEventListener('touchmove', this.onTouchMove, { passive: false });
   layer.addEventListener('touchend', this.onTouchEnd, { passive: false });
-  layer.addEventListener('touchcancel', this.onTouchCancel, false);
+  layer.addEventListener('touchcancel', this.onTouchCancel, { passive: false });
   if (!Event.prototype.stopImmediatePropagation) {
     layer.removeEventListener = function (type, callback, capture) {
       var rmv = Node.prototype.removeEventListener;
@@ -398,10 +398,12 @@ FastClick.prototype.destroy = function () {
     layer.removeEventListener('mouseup', this.onMouse, true);
   }
   layer.removeEventListener('click', this.onClick, true);
-  layer.removeEventListener('touchstart', this.onTouchStart, false);
-  layer.removeEventListener('touchmove', this.onTouchMove, false);
-  layer.removeEventListener('touchend', this.onTouchEnd, false);
-  layer.removeEventListener('touchcancel', this.onTouchCancel, false);
+  layer.removeEventListener('touchstart', this.onTouchStart, {
+    passive: false,
+  });
+  layer.removeEventListener('touchmove', this.onTouchMove, { passive: false });
+  layer.removeEventListener('touchend', this.onTouchEnd, { passive: false });
+  layer.removeEventListener('touchcancel', this.onTouchCancel, { passive: false });
 };
 FastClick.notNeeded = function (layer) {
   var metaViewport;

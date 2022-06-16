@@ -2,7 +2,7 @@ import './Navbar.scss';
 import NavbarTpl from './NavBar.tpl';
 import LabelTpl from './Label.tpl';
 import { injectTpl } from '../../utils';
-import { NEWS_CATEGORIES as labels } from '../../data';
+import { NEWS_LABELS } from '../../data';
 
 export default {
   name: 'Navbar',
@@ -11,13 +11,13 @@ export default {
     const { activatedCategory } = props;
 
     const oRoot = document.querySelector(':root');
-    oRoot.style.setProperty('--labels-length', labels.length);
-    this.state.labelIndex = labels.findIndex(
+    oRoot.style.setProperty('--labels-length', NEWS_LABELS.length);
+    this.state.labelIndex = NEWS_LABELS.findIndex(
       (label) => label.category === activatedCategory
     );
 
-    const labelsTpl = labels.reduce((labelTpl, label) => {
-      const currentLabelTpl = injectTpl(LabelTpl, {
+    const labelsTpl = NEWS_LABELS.reduce((labelHtmlStr, label) => {
+      const newLabelHtmlStr = injectTpl(LabelTpl, {
         ...label,
         isActivated:
           label.category === activatedCategory
@@ -25,7 +25,7 @@ export default {
             : '',
       });
 
-      return labelTpl + currentLabelTpl;
+      return labelHtmlStr + newLabelHtmlStr;
     }, '');
 
     return injectTpl(NavbarTpl, {

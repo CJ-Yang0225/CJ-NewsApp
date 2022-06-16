@@ -1,4 +1,4 @@
-const NEWS_CATEGORIES = [
+const NEWS_LABELS = [
   {
     category: 'top',
     text: '焦點',
@@ -29,4 +29,4 @@ const NEWS_CATEGORIES = [
   },
 ];
 
-export { NEWS_CATEGORIES };
+export { NEWS_LABELS };

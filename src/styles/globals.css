@@ -9,7 +9,8 @@
     url('../assets/fonts/MaterialIcons-Regular.ttf') format('truetype');
 }
 
-.material-icons {
+.material-icons,
+.material-icons-outlined {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -56,6 +57,11 @@
   --label-border-dark: #ff6861;
   --label-bg-dark_activated: #ff6861;
   --label-text-dark_activated: #ffffff;
+
+  --news-card-bg-dark: #23252f;
+  --news-card-title-dark: #ffffff;
+  --news-card-text-dark: #ffffff;
+  --news-card-icon-dark: #ff7b75;
 }
 
 html {

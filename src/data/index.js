@@ -20,7 +20,7 @@ const NEWS_LABELS = [
     text: '科學',
   },
   {
-    category: 'techology',
+    category: 'technology',
     text: '科技',
   },
   {

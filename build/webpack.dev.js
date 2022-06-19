@@ -34,6 +34,12 @@ module.exports = merge(commonConfig, {
     open: false,
     compress: true,
     port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        pathRewrite: { '^/api': '' },
+      },
+    },
     static: {
       directory: path.resolve(__dirname, '../public'),
     },

@@ -10,6 +10,7 @@
   }
 
   &__scrollable-box {
+    /* scrollable hint */
     background: linear-gradient(
           to right,
           var(--bg-color-dark),
@@ -33,8 +34,6 @@
     width: Max(calc(var(--label-width) * var(--labels-length)), 100%);
     height: 100%;
   }
-
-  /* scrollable hint */
 
   &__label {
     display: inline-flex;

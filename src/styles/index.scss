@@ -1,0 +1,29 @@
+:root {
+  --search-bar-bg-dark: #23252f;
+  --search-bar-text-dark: #858c94;
+
+  --label-width: 8rem;
+  --label-spacing: 0.8rem;
+  --label-bg-dark: #1a1b22;
+  --label-text-dark: #ff6861;
+  --label-border-dark: #ff6861;
+  --label-bg-dark_activated: #ff6861;
+  --label-text-dark_activated: #ffffff;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+.news-list {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+}

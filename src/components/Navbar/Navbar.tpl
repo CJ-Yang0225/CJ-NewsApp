@@ -2,6 +2,6 @@
   <div class="navbar__scrollable-box">
     <ul class="navbar__labels-wrapper">
       {{ labelsTpl }}
-    </div>
+    </ul>
   </div>
 </nav>

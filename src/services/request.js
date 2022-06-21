@@ -1,8 +1,8 @@
 import HTTP from '../utils/http';
-import { formatParams } from '../utils';
+import { formatParams, sliceNewsByCount } from '../utils';
 
 class Request extends HTTP {
-  getSpecificNews(category, totalNews) {
+  getSlicedNews(category, totalNews = 30) {
     return new Promise((resolve, reject) => {
       const url = formatParams(
         '/api/news',
@@ -15,7 +15,9 @@ class Request extends HTTP {
 
       this.get(url, {
         onSuccess(result) {
-          resolve(result);
+          const news = result.articles;
+          const slicedNews = sliceNewsByCount(news, 10);
+          resolve(slicedNews);
         },
         onError(error) {
           reject(error);

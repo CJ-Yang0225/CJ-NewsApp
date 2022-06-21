@@ -8,7 +8,7 @@ import Header from '../components/Header';
   };
 
   function render() {
-    const headerTpl = Header.setState({
+    const headerTpl = Header.setProps({
       title: '已收藏的新聞',
       backUrl: './index.html',
       showBackIcon: true,

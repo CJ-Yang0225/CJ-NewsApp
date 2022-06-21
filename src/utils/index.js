@@ -15,4 +15,18 @@ const formatParams = (url = '/api', params, formatter) => {
   return url;
 };
 
-export { injectTpl, formatParams };
+const sliceNewsByCount = (news, count = 10) => {
+  const totalNews = news.length;
+  const slicedNews = [];
+  let newsIndex = 0;
+
+  while (newsIndex < totalNews) {
+    const startIndex = newsIndex;
+    const endIndex = (newsIndex += count);
+    slicedNews.push(news.slice(startIndex, endIndex));
+  }
+
+  return slicedNews;
+};
+
+export { injectTpl, formatParams, sliceNewsByCount };

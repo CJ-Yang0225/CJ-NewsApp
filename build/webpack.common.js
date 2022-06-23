@@ -84,8 +84,9 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /.tpl$/,
+        test: /\.tpl$/,
         type: 'asset/source',
+        exclude: /node_modules/,
       },
     ],
   },

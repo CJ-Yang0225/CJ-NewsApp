@@ -9,23 +9,22 @@ export default {
   state: { labelIndex: -1 },
   setProps(props) {
     const { activatedCategory } = props;
-
-    const oRoot = document.querySelector(':root');
-    oRoot.style.setProperty('--labels-length', NEWS_LABELS.length);
+    const oApp = document.getElementById('app');
+    oApp.style.setProperty('--labels-length', NEWS_LABELS.length);
     this.state.labelIndex = NEWS_LABELS.findIndex(
       (label) => label.category === activatedCategory
     );
 
-    const labelsTpl = NEWS_LABELS.reduce((labelHtmlStr, label) => {
-      const newLabelHtmlStr = injectTpl(LabelTpl, {
+    const labelsTpl = NEWS_LABELS.reduce((labelsTplStr, label) => {
+      const labelTplStr = injectTpl(LabelTpl, {
         ...label,
         isActivated:
           label.category === activatedCategory
-            ? 'navbar__label--activated'
+            ? ' navbar__label--activated'
             : '',
       });
 
-      return labelHtmlStr + newLabelHtmlStr;
+      return labelsTplStr + labelTplStr;
     }, '');
 
     return injectTpl(NavbarTpl, {

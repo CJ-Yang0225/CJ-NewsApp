@@ -2,6 +2,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
+  font-display: block; /* Prevent material icon text from showing up */
   src: url('../assets/fonts/MaterialIcons-Regular.eot'); /* For IE6-8 */
   src: local('Material Icons'), local('MaterialIcons-Regular'),
     url('../assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
@@ -16,12 +17,17 @@
   font-style: normal;
   font-size: 2.4rem; /* Preferred icon size */
   display: inline-block;
-  line-height: 1;
+  line-height: normal; /* Fix Firefox browser vertically center */
   text-transform: none;
   letter-spacing: normal;
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
+
+  /* Prevent flicker */
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
 
   /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;

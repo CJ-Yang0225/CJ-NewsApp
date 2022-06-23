@@ -4,7 +4,7 @@
   align-items: center;
   padding: 0.8rem 1.2rem;
   background-color: var(--bg-color-dark);
-  color: var(--title-text-dark);
+  color: var(--header-title-dark);
   z-index: 99;
   box-shadow: 0 1px 3px #ffffff1f, 0 1px 2px #ffffff3d;
 }
@@ -21,7 +21,7 @@
   }
 
   .icon {
-    color: var(--logo-color-dark);
+    color: var(--header-logo-dark);
     font-size: 3.6rem;
   }
 }

@@ -35,24 +35,6 @@
   font-feature-settings: 'liga';
 }
 
-::before,
-::after {
-  box-sizing: border-box;
-}
-
-:root {
-  --bg-color-dark: #1a1b22;
-  --title-text-dark: #ffffff;
-  --content-text-dark: #ffffff;
-
-  --logo-color-dark: #e62117;
-
-  --news-card-bg-dark: #23252f;
-  --news-card-title-dark: #ffffff;
-  --news-card-text-dark: #ffffff;
-  --news-card-icon-dark: #ff7b75;
-}
-
 html {
   font-size: calc(100vw / 37.5);
 
@@ -65,12 +47,31 @@ html {
   }
 }
 
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'Roboto', Tahoma, Arial,
+    'Microsoft JhengHei UI', sans-serif;
+}
+
 #app {
-  background-color: var(--bg-color-dark);
+  --bg-color-dark: #1a1b22;
+
+  /* Header */
+  --header-title-dark: #ffffff;
+  --header-logo-dark: #e62117;
 }
 
 .icon-link {
   display: inline-block;
   font-size: 0;
   color: currentColor;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
 }

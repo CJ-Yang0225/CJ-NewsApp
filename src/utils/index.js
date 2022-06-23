@@ -29,4 +29,10 @@ const sliceNewsByCount = (news, count = 10) => {
   return slicedNews;
 };
 
-export { injectTpl, formatParams, sliceNewsByCount };
+const scrollToTop = () => {
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 0);
+};
+
+export { injectTpl, formatParams, sliceNewsByCount, scrollToTop };

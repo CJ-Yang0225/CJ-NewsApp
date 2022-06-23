@@ -1,5 +1,5 @@
 const injectTpl = (template, data) => {
-  return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+  return template.replace(/\s*\{\{(.*?)\}\}\s*/g, (_, key) => {
     return data[key.trim()];
   });
 };

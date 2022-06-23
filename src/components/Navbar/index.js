@@ -1,7 +1,7 @@
 import './Navbar.scss';
 import NavbarTpl from './NavBar.tpl';
 import LabelTpl from './Label.tpl';
-import { injectTpl } from '../../utils';
+import { injectTpl, scrollToTop } from '../../utils';
 import { NEWS_LABELS } from '../../data';
 
 export default {
@@ -47,6 +47,7 @@ export default {
           oLabels[currentIndex].classList.remove('navbar__label--activated');
           target.classList.add('navbar__label--activated');
           emitSwitch(target.dataset.category);
+          scrollToTop();
         }
       }
     };

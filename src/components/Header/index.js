@@ -10,9 +10,9 @@ export default {
     return injectTpl(HeaderTpl, {
       title,
       backUrl,
-      showBackIcon: showBackIcon ? 'block' : 'none',
-      showLogoIcon: showBackIcon ? 'none' : 'block',
-      showCollectionIcon: showCollectionIcon ? 'visible' : 'hidden',
+      showBackIcon: showBackIcon ? ' inline' : ' none',
+      showLogoIcon: showBackIcon ? ' none' : ' inline-block',
+      showCollectionIcon: showCollectionIcon ? ' visible' : ' hidden',
     });
   },
 };

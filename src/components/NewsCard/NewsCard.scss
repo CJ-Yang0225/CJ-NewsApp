@@ -1,30 +1,37 @@
 .news-card {
-  padding: 0.8rem 1.2rem;
+  margin: 0.8rem 1.2rem;
+  line-height: 1.2;
 
   &__paper {
     position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: stretch;
-    height: 14.4rem;
+    height: 16.8rem;
     border-radius: 1.6rem;
     background-color: var(--news-card-bg-dark);
     overflow: hidden;
+    cursor: pointer;
   }
 
   &__thumbnail {
     display: block;
     max-width: 40%;
+    width: 100%;
     object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
   }
 
-  &__body {
+  &__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    flex-grow: 1;
+    max-width: 60%;
+    width: 100%;
     padding: 2rem 1.2rem;
+    box-sizing: border-box;
   }
 
   &__title {
@@ -37,27 +44,39 @@
     overflow: hidden;
   }
 
+  &__description {
+    display: none;
+  }
+
   &__info {
-    align-self: stretch;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    font-size: 1.25rem;
+    display: block;
+    width: 100%;
+    font-size: 1.2rem;
   }
 
-  &__source {
-    color: var(--news-card-text-dark);
-    margin-right: 1.6rem;
+  &__info .icon {
+    margin-right: 0.4rem;
+    font-size: 2.25rem;
   }
 
+  &__source,
   &__author {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     color: var(--news-card-text-dark);
+
+    .text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__published-at {
     align-self: flex-end;
     margin-right: 3rem;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--news-card-text-dark);
     opacity: 0.9;
   }
@@ -67,5 +86,60 @@
     right: 1rem;
     bottom: 1.25rem;
     color: var(--news-card-icon-dark);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .news-card {
+    &__info {
+      align-self: flex-start;
+      font-size: 1.25rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .news-card {
+    &__title {
+      font-size: 1.6rem;
+    }
+
+    &__description {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      font-size: 1.25rem;
+      color: var(--news-card-text-dark);
+    }
+
+    &__info {
+      font-size: 1.25rem;
+    }
+
+    &__published-at {
+      position: absolute;
+      right: 4.5rem;
+      bottom: 2.25rem;
+      align-self: unset;
+      margin-right: unset;
+      font-size: 1.25rem;
+    }
+
+    &__bookmark {
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1.75rem;
+    }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

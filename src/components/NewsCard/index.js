@@ -22,10 +22,10 @@ export default {
       index,
       urlToImage: urlToImage || '/',
       title,
-      description,
+      description: description || '',
       source: source || '',
       author: author || '',
-      hasSource: source ? '' : 'display:none;',
+      hasSource: source ? '' : 'display: none;',
       hasAuthor: author ? '' : 'display: none;',
       publishedAt,
       isCollected: isCollected ? 'bookmark_added' : 'bookmark_border',
@@ -36,10 +36,10 @@ export default {
     oImages.forEach((oImage) => {
       // image is cached by browser
       if (oImage.complete) {
-        oImage.style.animation = 'fade-in 0.5s ease forwards';
+        oImage.style.animationPlayState = 'running';
       } else {
         oImage.onload = () => {
-          oImage.style.opacity = '1';
+          oImage.style.animationPlayState = 'running';
         };
       }
     });

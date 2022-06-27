@@ -4,13 +4,13 @@ import Navbar from '../components/Navbar';
 import NewsCard from '../components/NewsCard';
 import request from '../services/request';
 
-const state = {
-  category: 'top',
-  cachedNews: {},
-  page: 0,
-};
-
 (function (doc) {
+  const state = {
+    category: 'top',
+    cachedNews: {},
+    page: 0,
+  };
+
   const oApp = doc.getElementById('app');
 
   const init = async () => {
@@ -36,7 +36,6 @@ const state = {
 
     const newsContainer = document.createElement('main');
     newsContainer.className = 'news-container';
-
     oApp.appendChild(newsContainer);
   }
 
@@ -45,10 +44,10 @@ const state = {
   }
 
   function switchCategory(category) {
-    const oNewsList = oApp.querySelector('.news-container');
+    const oNewsContainer = oApp.querySelector('.news-container');
     state.category = category;
     state.page = 0;
-    oNewsList.innerHTML = '';
+    oNewsContainer.innerHTML = '';
     populateNews();
   }
 
@@ -61,29 +60,36 @@ const state = {
       }
       return [];
     } else {
-      const slicedNews = await request.getSlicedNews(category, 30);
-      cachedNews[category] = slicedNews;
-
+      cachedNews[category] = await request.getSlicedNews(category, 30);
       return cachedNews[category][0];
     }
   }
 
   async function populateNews() {
-    const oNewsList = oApp.querySelector('.news-container');
+    const { page } = state;
+    const oNewsContainer = oApp.querySelector('.news-container');
 
     const slicedNewsByPage = await getNewsByPage();
-    slicedNewsByPage.forEach((article) => {
-      const { urlToImage, title, source, author, publishedAt } = article;
-      const NewsCardTpl = NewsCard.setProps({
-        urlToImage,
-        title,
-        source: source.name,
-        author,
-        publishedAt: new Date(publishedAt).toLocaleString(),
-        isCollected: false,
-      });
+    const newsCardsTpl = slicedNewsByPage.reduce(
+      (newsCardsTplStr, news, index) => {
+        const { urlToImage, title, description, source, author, publishedAt } =
+          news;
+        const newsCardTplStr = NewsCard.setProps({
+          page,
+          index,
+          urlToImage,
+          title,
+          description,
+          source: source.name,
+          author,
+          publishedAt: new Date(publishedAt).toLocaleString(),
+          isCollected: false,
+        });
 
-      oNewsList.innerHTML += NewsCardTpl;
-    });
+        return newsCardsTplStr + newsCardTplStr;
+      },
+      ''
+    );
+    oNewsContainer.innerHTML += newsCardsTpl;
   }
 })(document);

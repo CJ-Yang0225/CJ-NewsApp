@@ -35,4 +35,10 @@ const scrollToTop = () => {
   }, 0);
 };
 
-export { injectTpl, formatParams, sliceNewsByCount, scrollToTop };
+const delay = (ms) => ({
+  then: (callback) => {
+    setTimeout(callback, ms);
+  },
+});
+
+export { injectTpl, formatParams, sliceNewsByCount, scrollToTop, delay };

@@ -19,6 +19,7 @@ class HTTP {
       onError,
       onComplete,
       dataType,
+      timeout,
     } = settings;
     method = (method || type || 'GET').toUpperCase();
     isAsync = isAsync || true;
@@ -32,16 +33,25 @@ class HTTP {
           };
     onComplete = typeof onComplete === 'function' ? onComplete : () => {};
     dataType = dataType || 'json';
+    timeout = timeout || 15000;
 
-    dataType === 'xml' && xhr.overrideMimeType('text/xml');
     xhr.open(method, url, isAsync);
     method === 'POST' &&
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    dataType === 'xml' && xhr.overrideMimeType('text/xml');
     xhr.send(method === 'GET' ? null : formatData(data));
+
+    let timer = setTimeout(() => {
+      xhr.abort();
+      timer = null;
+      throw new Error(url + ' 請求超時');
+    }, timeout);
+
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
+        // 304 Not Modified: 說明無需再次傳輸請求的內容，也就是說可以使用快取的內容
         if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-          switch (dataType?.toLowerCase()) {
+          switch (typeof dataType === 'string' && dataType.toLowerCase()) {
             case 'json':
               onSuccess(JSON.parse(xhr.responseText));
               break;
@@ -72,6 +82,7 @@ class HTTP {
         }
       }
       onComplete();
+      clearTimeout(timer);
     };
   }
 

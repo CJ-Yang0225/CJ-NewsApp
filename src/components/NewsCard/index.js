@@ -20,7 +20,7 @@ export default {
     return injectTpl(NewsCardTpl, {
       page,
       index,
-      urlToImage: urlToImage || '/',
+      urlToImage: urlToImage || '',
       title,
       description: description || '',
       source: source || '',

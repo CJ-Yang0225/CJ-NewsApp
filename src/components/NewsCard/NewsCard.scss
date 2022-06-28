@@ -42,6 +42,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
+    flex: 0 0 auto;
   }
 
   &__description {
@@ -124,10 +125,6 @@
 
     &__info {
       font-size: 1.25rem;
-    }
-
-    &__source .text,
-    &__author .text {
       max-width: 55%;
     }
 

@@ -1,0 +1,15 @@
+.icon-tpl {
+  display: inline-block;
+  width: 2.4rem;
+  height: 2.4rem;
+
+  &--loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12rem;
+    height: 12rem;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+  }
+}

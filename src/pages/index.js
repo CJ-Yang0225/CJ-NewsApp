@@ -3,6 +3,8 @@ import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import NewsCard from '../components/NewsCard';
 import request from '../services/request';
+import LoadingIcon from '../components/Icon';
+import { delay } from '../utils';
 
 (function (doc) {
   const state = {
@@ -53,6 +55,7 @@ import request from '../services/request';
 
   async function getNewsByPage(page = state.page) {
     const { cachedNews, category } = state;
+    const oNewsContainer = oApp.querySelector('.news-container');
 
     if (cachedNews[category]) {
       if (cachedNews[category][page]) {
@@ -60,7 +63,11 @@ import request from '../services/request';
       }
       return [];
     } else {
+      oNewsContainer.innerHTML = LoadingIcon.setProps({ status: 'loading' });
       cachedNews[category] = await request.getSlicedNews(category, 30);
+      await delay(1500);
+      oNewsContainer.innerHTML = '';
+
       return cachedNews[category][0];
     }
   }
@@ -90,6 +97,8 @@ import request from '../services/request';
       },
       ''
     );
+
     oNewsContainer.innerHTML += newsCardsTpl;
+    NewsCard.triggerImagesFadeIn();
   }
 })(document);

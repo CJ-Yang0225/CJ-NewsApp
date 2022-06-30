@@ -78,10 +78,10 @@ import { delay } from '../utils';
 
     const slicedNewsByPage = await getNewsByPage();
     const newsCardsTpl = slicedNewsByPage.reduce(
-      (newsCardsTplStr, news, index) => {
+      (newsCardsTplFrag, news, index) => {
         const { urlToImage, title, description, source, author, publishedAt } =
           news;
-        const newsCardTplStr = NewsCard.setProps({
+        const newsCardTplFrag = NewsCard.setProps({
           page,
           index,
           urlToImage,
@@ -93,7 +93,7 @@ import { delay } from '../utils';
           isCollected: false,
         });
 
-        return newsCardsTplStr + newsCardTplStr;
+        return newsCardsTplFrag + newsCardTplFrag;
       },
       ''
     );

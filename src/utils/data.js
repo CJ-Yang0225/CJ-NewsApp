@@ -9,7 +9,7 @@ const formatParams = (url = '/api', params, formatter) => {
   return url;
 };
 
-const sliceNewsByCount = (news, count = 10) => {
+const sliceNewsByCount = (news = [], count = 10) => {
   const totalNews = news.length;
   const slicedNews = [];
   let newsIndex = 0;

@@ -17,6 +17,7 @@
   --news-card-title-dark: #ffffff;
   --news-card-text-dark: #ffffff;
   --news-card-icon-dark: #ff7b75;
+  --news-card-thumbnail-bg-dark: #a7a8ac;
 
   display: flex;
   flex-direction: column;
@@ -24,13 +25,14 @@
   align-items: stretch;
   min-height: 100vh;
   background-color: var(--bg-color-dark);
+}
 
-  .news-container {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    background-color: var(--bg-color-dark);
-  }
+.news-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: var(--bg-color-dark);
+  flex-grow: 1;
 }

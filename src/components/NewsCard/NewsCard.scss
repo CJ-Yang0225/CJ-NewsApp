@@ -14,10 +14,15 @@
     cursor: pointer;
   }
 
-  &__thumbnail {
-    display: block;
+  &__thumbnail-box {
     max-width: 40%;
     width: 100%;
+    background-color: var(--news-card-thumbnail-bg-dark);
+  }
+
+  &__thumbnail {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     animation: fade-in 0.75s ease forwards;
     animation-play-state: paused;

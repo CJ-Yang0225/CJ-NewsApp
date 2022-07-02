@@ -1,6 +1,12 @@
 <article class="news-card" data-page="{{ page }}" data-index="{{ index }}">
   <figure class="news-card__paper">
-    <img class="news-card__thumbnail" src="{{ urlToImage }}" alt="thumbnail" />
+    <div class="news-card__thumbnail-box">
+      <img
+        class="news-card__thumbnail"
+        src="{{ urlToImage }}"
+        alt="thumbnail"
+      />
+    </div>
     <figcaption class="news-card__content">
       <h2 class="news-card__title" title="{{ title }}">
         {{ title }}

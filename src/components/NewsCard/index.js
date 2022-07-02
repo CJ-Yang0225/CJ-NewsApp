@@ -4,6 +4,7 @@ import { injectTpl } from '../../utils';
 
 export default {
   name: 'NewsCard',
+  state: { loadingPage: 0 },
   setProps(props) {
     const {
       page,
@@ -16,6 +17,8 @@ export default {
       publishedAt,
       isCollected,
     } = props;
+
+    this.state.loadingPage = page;
 
     return injectTpl(NewsCardTpl, {
       page,
@@ -32,7 +35,10 @@ export default {
     });
   },
   triggerImagesFadeIn() {
-    const oImages = document.querySelectorAll('.news-card__thumbnail');
+    const { loadingPage } = this.state;
+    const oImages = document.querySelectorAll(
+      `.news-card[data-page="${loadingPage}"] .news-card__thumbnail`
+    );
     oImages.forEach((oImage) => {
       // image is cached by browser
       if (oImage.complete) {

@@ -5,7 +5,7 @@ import loadingIconUrl from '../../assets/images/loading.gif';
 
 export default {
   name: 'Icon',
-  setProps(props) {
+  create(props) {
     const { status, iconUrl } = props;
 
     return injectTpl(IconTpl, {

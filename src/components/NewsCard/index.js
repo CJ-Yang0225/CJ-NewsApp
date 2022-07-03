@@ -5,7 +5,7 @@ import { injectTpl } from '../../utils';
 export default {
   name: 'NewsCard',
   state: { loadingPage: 0 },
-  setProps(props) {
+  create(props) {
     const {
       page,
       index,

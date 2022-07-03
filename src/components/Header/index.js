@@ -4,7 +4,7 @@ import { injectTpl } from '../../utils';
 
 export default {
   name: 'Header',
-  setProps(props) {
+  create(props) {
     const { title, backUrl, showBackIcon, showCollectionIcon } = props;
 
     return injectTpl(HeaderTpl, {

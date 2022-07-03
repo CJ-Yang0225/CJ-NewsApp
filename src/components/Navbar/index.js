@@ -7,7 +7,7 @@ import { NEWS_LABELS } from '../../data';
 export default {
   name: 'Navbar',
   state: { labelIndex: -1 },
-  setProps(props) {
+  create(props) {
     const { activatedCategory } = props;
     const oApp = document.getElementById('app');
     oApp.style.setProperty('--labels-length', NEWS_LABELS.length);

@@ -1,3 +1,15 @@
+/**
+ * @typedef {string} Tpl
+ * @param {Tpl} Template
+ * @param {Object.<string, string>} data
+ * @returns {Tpl} injectedTemplate
+ */
+const injectTpl = (Template, data) => {
+  return Template.replace(/\s*\{\{(.*?)\}\}\s*/g, (_, key) => {
+    return data[key.trim()];
+  });
+};
+
 const formatParams = (url = '/api', params, formatter) => {
   /\?$/.test(url) || (url += '?');
 
@@ -23,4 +35,4 @@ const sliceNewsByCount = (news = [], count = 10) => {
   return slicedNews;
 };
 
-export { formatParams, sliceNewsByCount };
+export { injectTpl, formatParams, sliceNewsByCount };

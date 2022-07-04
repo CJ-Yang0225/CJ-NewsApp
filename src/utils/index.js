@@ -1,4 +1,4 @@
-export * from './template';
 export * from './data';
-export * from './uiux';
+export * from './dom';
+export * from './view';
 export { default as EventStore } from './event';

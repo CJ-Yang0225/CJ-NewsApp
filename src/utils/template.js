@@ -1,11 +1,11 @@
 /**
- * @template {string} T
- * @param {T} template
+ * @typedef {string} Tpl
+ * @param {Tpl} Template
  * @param {Object.<string, string>} data
- * @returns {T}
+ * @returns {Tpl} injectedTemplate
  */
-const injectTpl = (template, data) => {
-  return template.replace(/\s*\{\{(.*?)\}\}\s*/g, (_, key) => {
+const injectTpl = (Template, data) => {
+  return Template.replace(/\s*\{\{(.*?)\}\}\s*/g, (_, key) => {
     return data[key.trim()];
   });
 };

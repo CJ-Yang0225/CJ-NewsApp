@@ -4,12 +4,12 @@ import Navbar from '../components/Navbar';
 import NewsCard from '../components/NewsCard';
 import request from '../services/request';
 import LoadingIcon from '../components/Icon';
+import PullHint from '../components/PullHint';
 import {
   delay,
   getDocumentSize,
   getScrolledLength,
   getViewportSize,
-  scrollToTop,
 } from '../utils';
 
 (function (doc) {
@@ -22,7 +22,6 @@ import {
   };
 
   const oApp = doc.getElementById('app');
-  let loadMoreTimer = null;
 
   const init = async () => {
     render();
@@ -49,7 +48,7 @@ import {
   }
 
   function createNewsContainer(category) {
-    const newsContainer = document.createElement('main');
+    const newsContainer = doc.createElement('main');
     newsContainer.className = 'news-container';
     newsContainer.dataset.category = category;
 
@@ -62,12 +61,8 @@ import {
   }
 
   function switchCategory(category) {
-    // const oNewsContainer = oApp.querySelector('.news-container');
     state.category = category;
     state.page = 0;
-    // clearTimeout(loadMoreTimer);
-    // oNewsContainer.dataset.category = category;
-    // oNewsContainer.innerHTML = '';
 
     oApp.querySelector('.news-container').remove();
     oApp.appendChild(createNewsContainer(category));
@@ -87,7 +82,7 @@ import {
       const { maxPage, slicedNews } = await request.getSlicedNews(category, 70);
       state.maxPage = maxPage;
       cachedNews[category] = slicedNews;
-      // await delay(1500);
+      await delay(500);
       oNewsContainer.innerHTML = '';
 
       return cachedNews[category][0] || [];
@@ -98,6 +93,8 @@ import {
     const oNewsContainer = oApp.querySelector(
       `.news-container[data-category="${category}"]`
     );
+
+    if (!oNewsContainer) return;
 
     const slicedNewsByPage = await getNewsByPage(category, page);
     const newsCardsTpl = slicedNewsByPage.reduce(
@@ -121,43 +118,47 @@ import {
       ''
     );
 
-    const newsCardsEl = document.createElement('template');
+    const newsCardsEl = doc.createElement('template');
     newsCardsEl.innerHTML = newsCardsTpl;
 
     oNewsContainer.appendChild(newsCardsEl.content);
     state.isLoading = false;
     NewsCard.triggerImagesFadeIn();
+    PullHint.removeHintFrom(oNewsContainer);
   }
 
   async function loadMoreNews() {
     const { category } = state;
+    const oNewsContainer = oApp.querySelector(
+      `.news-container[data-category="${category}"]`
+    );
     const hasScrollbar = getDocumentSize().height > getViewportSize().height;
     const hasReachedBottom =
       getScrolledLength().top + getViewportSize().height ===
       getDocumentSize().height;
-    // console.log(
-    //   hasScrollbar,
-    //   getDocumentSize().height -
-    //     (getScrolledLength().top + getViewportSize().height)
-    // );
 
     if (!state.isLoading && hasScrollbar && hasReachedBottom) {
+      state.isLoading = true;
+      const pullHintEl = doc.createElement('template');
+
       if (state.page < state.maxPage) {
-        state.isLoading = true;
-        // loadMoreTimer = setTimeout(() => {
-        //   console.log('load more!');
-        //   state.page++;
-        //   populateNews();
-        // }, 1000);
+        pullHintEl.innerHTML = PullHint.create({ status: 'loading' });
+
+        oNewsContainer.appendChild(pullHintEl.content);
+
+        const pullHintHeight = oNewsContainer.lastElementChild.offsetHeight;
+        window.scrollBy({
+          top: pullHintHeight,
+          behavior: 'smooth',
+        });
+
         await delay(1000);
-        console.log('Load more');
         state.page++;
         populateNews(category);
+      } else {
+        pullHintEl.innerHTML = PullHint.create({ status: 'no-data' });
 
-        /* Test */
-
-        // switchCategory('sports');
-        // scrollToTop();
+        oNewsContainer.appendChild(pullHintEl.content);
       }
     }
   }

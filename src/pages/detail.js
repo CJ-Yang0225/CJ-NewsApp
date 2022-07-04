@@ -8,7 +8,7 @@ import Header from '../components/Header';
   };
 
   function render() {
-    const headerTpl = Header.setProps({
+    const headerTpl = Header.create({
       title: '新聞內容',
       backUrl: './index.html',
       showBackIcon: true,

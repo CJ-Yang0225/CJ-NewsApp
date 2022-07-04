@@ -21,7 +21,7 @@ export default {
           : ''),
     });
   },
-  removeHintFrom(parentEl) {
+  removeFrom(parentEl) {
     const oPullHint = parentEl?.querySelector('.pull-hint');
     oPullHint?.remove();
   },

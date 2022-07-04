@@ -16,7 +16,7 @@ export default {
     );
 
     const labelsTpl = NEWS_LABELS.reduce((labelsTplFrag, label) => {
-      const labelTplFrag = injectTpl(LabelTpl, {
+      const labelTpl = injectTpl(LabelTpl, {
         ...label,
         isActivated:
           label.category === activatedCategory
@@ -24,7 +24,7 @@ export default {
             : '',
       });
 
-      return labelsTplFrag + labelTplFrag;
+      return labelsTplFrag + labelTpl;
     }, '');
 
     return injectTpl(NavbarTpl, {

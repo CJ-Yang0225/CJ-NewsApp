@@ -4,7 +4,7 @@
       <img
         class="news-card__thumbnail"
         src="{{ urlToImage }}"
-        alt="thumbnail"
+        alt=""
       />
     </div>
     <figcaption class="news-card__content">

@@ -13,4 +13,8 @@ export default {
       status: status ? ` icon-tpl--${status}` : '',
     });
   },
+  removeFrom(parentEl) {
+    const oIcon = parentEl?.querySelector('.icon-tpl');
+    oIcon?.remove();
+  },
 };

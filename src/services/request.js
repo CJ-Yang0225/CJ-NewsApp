@@ -16,8 +16,9 @@ class Request extends HTTP {
       this.get(url, {
         onSuccess(result) {
           const news = result.articles;
+          const maxPage = Math.ceil(result.totalResults / 10) - 1;
           const slicedNews = sliceNewsByCount(news, 10);
-          resolve(slicedNews);
+          resolve({ maxPage, slicedNews });
         },
         onError(error) {
           reject(error);

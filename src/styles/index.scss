@@ -19,6 +19,10 @@
   --news-card-icon-dark: #ff7b75;
   --news-card-thumbnail-bg-dark: #a7a8ac;
 
+  /* PullHint */
+  --pull-hint-bg-dark: var(--bg-color-dark);
+  --pull-hint-text-dark: #ffffff;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

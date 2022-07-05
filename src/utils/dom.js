@@ -13,12 +13,4 @@ const createFragment = (htmlString) => {
   return templateElement.content;
 };
 
-function createNewsContainer(category) {
-  const newsContainer = document.createElement('main');
-  newsContainer.className = 'news-container';
-  newsContainer.dataset.category = category;
-
-  return newsContainer;
-}
-
-export { createFragment, createNewsContainer };
+export { createFragment };

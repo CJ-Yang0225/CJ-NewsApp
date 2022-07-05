@@ -34,6 +34,13 @@ export default {
       isCollected: isCollected ? 'bookmark_added' : 'bookmark_border',
     });
   },
+  container(category) {
+    const newsContainer = document.createElement('main');
+    newsContainer.className = 'news-container';
+    newsContainer.dataset.category = category;
+
+    return newsContainer;
+  },
   triggerImagesFadeIn() {
     const { loadingPage } = this.state;
     const oImages = document.querySelectorAll(

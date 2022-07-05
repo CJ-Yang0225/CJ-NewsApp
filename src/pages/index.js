@@ -7,7 +7,6 @@ import LoadingIcon from '../components/Icon';
 import PullHint from '../components/PullHint';
 import {
   createFragment,
-  createNewsContainer,
   delay,
   getDocumentSize,
   getScrolledLength,
@@ -45,7 +44,7 @@ import {
     const navbarTpl = Navbar.create({ activatedCategory: category });
 
     oApp.innerHTML += headerTpl + navbarTpl;
-    oApp.appendChild(createNewsContainer(category));
+    oApp.appendChild(NewsCard.container(category));
   }
 
   function useEvent() {

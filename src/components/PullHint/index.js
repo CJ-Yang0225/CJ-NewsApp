@@ -11,7 +11,7 @@ export default {
 
     return injectTpl(PullHintTpl, {
       status: status ? ` pull-hint--${status}` : '',
-      Icon: Icon.create({ iconUrl }),
+      Icon: Icon.create({ iconUrl, className: ' pull-hint__icon' }),
       text:
         text ||
         (status === 'loading'

@@ -1,1 +1,1 @@
-<img class="icon-tpl {{ status }}" src="{{ iconUrl }}" alt="" />
+<img class="icon-tpl {{ status }} {{ className }}" src="{{ iconUrl }}" alt="" />

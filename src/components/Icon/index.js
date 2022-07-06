@@ -6,11 +6,12 @@ import loadingIconUrl from '../../assets/images/loading.gif';
 export default {
   name: 'Icon',
   create(props) {
-    const { status, iconUrl } = props;
+    const { status, className = '', iconUrl } = props;
 
     return injectTpl(IconTpl, {
       iconUrl: iconUrl || loadingIconUrl,
       status: status ? ` icon-tpl--${status}` : '',
+      className,
     });
   },
   removeFrom(parentEl) {

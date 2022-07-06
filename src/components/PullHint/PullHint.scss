@@ -10,10 +10,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
 
-    .icon-tpl {
-      display: inline-block;
-    }
+  &--loading &__icon {
+    display: inline-block;
   }
 
   &--loading &__text {
@@ -24,9 +24,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
 
-    .icon-tpl {
-      display: none;
-    }
+  &--no-data &__icon {
+    display: none;
   }
 }

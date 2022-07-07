@@ -31,12 +31,10 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      "> 0.5%",
+      "last 2 versions",
       "not dead",
       "not op_mini all"
-    ],
-    "development": [
-      "last 5 version"
     ]
   }
 }

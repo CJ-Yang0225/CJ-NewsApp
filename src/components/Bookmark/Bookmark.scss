@@ -1,0 +1,29 @@
+.bookmark {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  background-color: var(--bookmark-bg-dark);
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 50%;
+    background-color: var(--bookmark-bg-dark_hover);
+  }
+
+  &__icon {
+    color: var(--bookmark-icon-dark);
+  }
+
+  &__checkbox:checked + &__icon {
+    color: var(--bookmark-icon-dark_marked);
+    animation: pop 0.3s linear;
+  }
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.2);
+  }
+}

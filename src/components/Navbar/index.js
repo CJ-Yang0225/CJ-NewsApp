@@ -2,7 +2,7 @@ import './Navbar.scss';
 import NavbarTpl from './NavBar.tpl';
 import LabelTpl from './Label.tpl';
 import { injectTpl, scrollToTop } from '../../utils';
-import { NEWS_LABELS } from '../../data';
+import { NEWS_LABELS } from '../../constants/news';
 
 export default {
   name: 'Navbar',

@@ -18,10 +18,18 @@
   --news-card-text-dark: #ffffff;
   --news-card-icon-dark: #ff7b75;
   --news-card-thumbnail-bg-dark: #a7a8ac;
+  --news-card-source-icon-dark: #74d0ed;
+  --news-card-author-icon-dark: #dfc683;
 
   /* PullHint */
   --pull-hint-bg-dark: var(--bg-color-dark);
   --pull-hint-text-dark: #ffffff;
+
+  /* Bookmark */
+  --bookmark-icon-dark: #ff7b75;
+  --bookmark-icon-dark_marked: var(--bookmark-icon-dark);
+  --bookmark-bg-dark: transparent;
+  --bookmark-bg-dark_hover: #8f8f8f1a;
 
   display: flex;
   flex-direction: column;

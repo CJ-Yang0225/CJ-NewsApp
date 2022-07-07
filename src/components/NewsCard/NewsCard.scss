@@ -1,5 +1,5 @@
 .news-card {
-  margin: 0.8rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   line-height: 1.2;
 
   &__paper {
@@ -11,7 +11,6 @@
     border-radius: 1.6rem;
     background-color: var(--news-card-bg-dark);
     overflow: hidden;
-    cursor: pointer;
   }
 
   &__thumbnail-box {
@@ -26,6 +25,7 @@
     object-fit: cover;
     animation: fade-in 0.75s ease forwards;
     animation-play-state: paused;
+    cursor: pointer;
   }
 
   &__content {
@@ -48,6 +48,11 @@
     -webkit-line-clamp: 2;
     overflow: hidden;
     flex: 0 0 auto;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__description {
@@ -81,11 +86,11 @@
   }
 
   &__source .icon {
-    color: #4f8c9f;
+    color: var(--news-card-source-icon-dark);
   }
 
   &__author .icon {
-    color: #bba976;
+    color: var(--news-card-author-icon-dark);
   }
 
   &__published-at {

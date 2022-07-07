@@ -12,13 +12,26 @@
     background-color: var(--bookmark-bg-dark_hover);
   }
 
+  &__checkbox {
+    display: none;
+  }
+
   &__icon {
     color: var(--bookmark-icon-dark);
+
+    &::before {
+      display: inline-block;
+      content: 'bookmark_border';
+    }
   }
 
   &__checkbox:checked + &__icon {
     color: var(--bookmark-icon-dark_marked);
     animation: pop 0.3s linear;
+
+    &::before {
+      content: 'bookmark_added';
+    }
   }
 }
 

@@ -10,10 +10,6 @@ export default {
     return injectTpl(BookmarkTpl, {
       className,
       checked: isMarked ? 'checked' : '',
-      bookmarkIcon: isMarked ? 'bookmark_added' : 'bookmark_border',
     });
-  },
-  change(oBookmarkIcon, isMarked) {
-    oBookmarkIcon.textContent = isMarked ? 'bookmark_added' : 'bookmark_border';
   },
 };

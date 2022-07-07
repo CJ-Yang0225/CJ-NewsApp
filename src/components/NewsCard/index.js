@@ -1,6 +1,11 @@
 import './NewsCard.scss';
 import NewsCardTpl from './NewsCard.tpl';
+import Bookmark from '../Bookmark';
 import { injectTpl } from '../../utils';
+import {
+  REDIRECT_TO_DETAIL,
+  TOGGLE_BOOKMARK,
+} from '../../constants/actionTypes';
 
 export default {
   name: 'NewsCard',
@@ -15,7 +20,7 @@ export default {
       source,
       author,
       publishedAt,
-      isCollected,
+      isMarked,
     } = props;
 
     this.state.loadingPage = page;
@@ -31,7 +36,10 @@ export default {
       hasSource: source ? '' : 'display: none;',
       hasAuthor: author ? '' : 'display: none;',
       publishedAt,
-      isCollected: isCollected ? 'bookmark_added' : 'bookmark_border',
+      Bookmark: Bookmark.create({
+        isMarked,
+        className: ' news-card__bookmark',
+      }),
     });
   },
   container(category) {
@@ -56,5 +64,36 @@ export default {
         };
       }
     });
+  },
+  onClick(emitClick) {
+    const oNewsContainer = document.querySelector('.news-container');
+
+    const handleClick = (event) => {
+      const target = event.target;
+      const oNewsCard = target.closest('.news-card');
+
+      if (target.closest('.news-card__bookmark')) {
+        // Prevent click event of label from automatically triggering input
+        event.preventDefault();
+
+        const oBookmark = target.closest('.news-card__bookmark');
+        const [oCheckbox] = oBookmark.children;
+        const isMarked = (oCheckbox.checked = !oCheckbox.checked); // Manually change checkbox state
+
+        emitClick({
+          type: TOGGLE_BOOKMARK,
+          payload: { ...oNewsCard.dataset, isMarked },
+        });
+      } else if (
+        target.closest('.news-card__title') ||
+        target.closest('.news-card__thumbnail')
+      ) {
+        if (oNewsCard) {
+          emitClick({ type: REDIRECT_TO_DETAIL, payload: oNewsCard.dataset });
+        }
+      }
+    };
+
+    oNewsContainer.addEventListener('click', handleClick);
   },
 };

@@ -20,7 +20,7 @@ const scrollToTop = () => {
 };
 
 const delay = (ms) => ({
-  then: (callback) => {
+  then(callback) {
     setTimeout(callback, ms);
   },
 });

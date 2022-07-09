@@ -1,4 +1,4 @@
-<header class="header__container">
+<header class="header">
   <a
     class="icon-link"
     href="{{ backUrl }}"
@@ -21,4 +21,5 @@
   >
     <span class="material-icons">collections_bookmark</span>
   </a>
+  {{ Bookmark }}
 </header>

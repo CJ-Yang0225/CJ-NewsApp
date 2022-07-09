@@ -29,4 +29,8 @@ const NEWS_LABELS = [
   },
 ];
 
-export { NEWS_LABELS };
+const STORED_NEWS_LIST_ITEM = 'storedNews';
+const CURRENT_NEWS_ITEM = 'currentNews';
+const BOOKMARKS_ITEM = 'bookmarks';
+
+export { NEWS_LABELS, STORED_NEWS_LIST_ITEM, CURRENT_NEWS_ITEM, BOOKMARKS_ITEM };

@@ -25,6 +25,16 @@ const delay = (ms) => ({
   },
 });
 
+const detectScrolledToBottom = () => {
+  const hasScrollbar = getDocumentSize().height > getViewportSize().height;
+  const isScrolledToBottom =
+    hasScrollbar &&
+    getScrolledLength().top + getViewportSize().height ===
+      getDocumentSize().height;
+
+  return isScrolledToBottom;
+};
+
 function getScrolledLength(element) {
   if (!element) {
     if (window.scrollX || window.pageXOffset) {
@@ -101,4 +111,5 @@ export {
   getScrolledLength,
   getViewportSize,
   getDocumentSize,
+  detectScrolledToBottom,
 };

@@ -7,7 +7,7 @@ class HTTP {
       : new ActiveXObject('Microsoft.XMLHTTP');
 
     if (!xhr) {
-      throw new Error('抱歉，此瀏覽器不支援非同步的 HTTP 請求');
+      throw new Error('此瀏覽器不支援非同步的 HTTP 請求');
     }
 
     let {
@@ -80,9 +80,9 @@ class HTTP {
               (xhr.statusText || xhr.responseText || xhr.response)
           );
         }
+        onComplete();
+        clearTimeout(timer);
       }
-      onComplete();
-      clearTimeout(timer);
     };
   }
 

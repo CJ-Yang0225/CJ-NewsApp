@@ -37,45 +37,71 @@ const sliceNewsByCount = (news = [], count = 10) => {
 
 const getUrlSearchParams = (key) => {
   const regExp = new RegExp(`(^|&)${key}=([^&#]*)(|&$)`, 'i');
-  const result = window.location.search.substring(1).match(regExp);
-  console.log('result:', result && decodeURIComponent(result[2]));
+  const result = location.search.substring(1).match(regExp);
 
   return result ? decodeURIComponent(result[2]) : null;
 };
 
 /**
- * @param {string} key
- * @param {string} value
- * @param {number} ttl - Time to live (seconds)
+ * @param {any} data
+ * @param {numlber} ttl Time to live (seconds)
+ * @returns {object} The data with expiration
  */
-const setItemWithExpiration = (key, value, ttl) => {
-  const data = {
-    value,
-    expiration: Date.now() + ttl * 1000,
-  };
+const attachExpiration = (data, ttl) => {
+  const expiration = Date.now() + ttl * 1000;
 
-  localStorage.setItem(key, JSON.stringify(data));
+  return { value: data, expiration };
 };
 
 /**
- * @param {string} key
- * @returns {any | null}
+ * @param {string} key localStorage item key
+ * @param {any} data The data that will be set to localStorage as item
+ * @param {number} [ttl] - Time to live (seconds)
  */
-const getItemWithExpiration = (key) => {
-  const dataStr = localStorage.getItem(key);
-  if (dataStr) {
-    const data = JSON.parse(dataStr);
+const setDataToLocalStorage = (key, data, ttl) => {
+  let value = null;
 
-    if (data.expiration < Date.now()) {
-      return data.value;
-    } else {
-      localStorage.removeItem(key);
+  value =
+    typeof ttl === 'number' && ttl >= 0 ? attachExpiration(data, ttl) : data;
 
-      return null;
+  localStorage.setItem(key, JSON.stringify(value));
+};
+
+/**
+ *
+ * @param {object} data
+ * @returns {any | null} The unexpired data or `null`
+ */
+const getUnexpiredData = (data) => {
+  if (data) {
+    const { expiration, value } = data;
+
+    if (expiration) {
+      const isUnexpired = Date.now() < expiration;
+      return isUnexpired ? value : null;
     }
+
+    return data;
   }
 
   return null;
+};
+
+/**
+ * @param {string} key localStorage item key
+ * @returns {any | null} The data from unexpired localStorage item or `null`
+ */
+const getDataFromLocalStorage = (key) => {
+  const data = JSON.parse(localStorage.getItem(key));
+
+  const unexpiredData = getUnexpiredData(data);
+
+  if (unexpiredData === null) {
+    localStorage.removeItem(key);
+    return null;
+  }
+
+  return unexpiredData;
 };
 
 export {
@@ -83,6 +109,8 @@ export {
   formatParams,
   sliceNewsByCount,
   getUrlSearchParams,
-  setItemWithExpiration,
-  getItemWithExpiration,
+  attachExpiration,
+  setDataToLocalStorage,
+  getUnexpiredData,
+  getDataFromLocalStorage,
 };

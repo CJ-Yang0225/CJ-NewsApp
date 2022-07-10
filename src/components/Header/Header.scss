@@ -9,9 +9,8 @@
   z-index: 99;
   box-shadow: 0 1px 3px #ffffff1f, 0 1px 2px #ffffff3d;
 
-  &__bookmark {
-    position: absolute;
-    right: 1.2rem;
+  &__back-icon {
+    color: var(--header-back-icon-dark);
   }
 
   &__logo-wrapper {
@@ -20,14 +19,24 @@
     align-items: center;
   }
 
+  &__logo-icon {
+    color: var(--header-logo-dark);
+    font-size: 3.6rem;
+  }
+
   &__title {
     margin-left: 0.8rem;
     font-weight: 700;
     font-size: 2.4rem;
   }
 
-  .icon {
-    color: var(--header-logo-dark);
-    font-size: 3.6rem;
+  #management {
+    padding: 0.4rem 1.6rem;
+    border-radius: 2.4rem;
+    border: 0.2rem solid var(--header-btn-border-dark);
+    background-color: transparent;
+    color: var(--header-btn-text-dark);
+    font-size: 1.4rem;
+    cursor: pointer;
   }
 }

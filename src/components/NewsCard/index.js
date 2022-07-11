@@ -1,15 +1,16 @@
 import './NewsCard.scss';
 import NewsCardTpl from './NewsCard.tpl';
 import Bookmark from '../Bookmark';
-import { injectTpl } from '../../utils';
+import { createFragment, injectTpl } from '../../utils';
 import {
   REDIRECT_TO_DETAIL,
   TOGGLE_BOOKMARK,
 } from '../../constants/actionTypes';
+import { BOOKMARKS_ITEM } from '../../constants/news';
 
 export default {
   name: 'NewsCard',
-  state: { loadingPage: 0 },
+  state: { loadingPage: -1 },
   create(props) {
     const {
       page,
@@ -42,7 +43,7 @@ export default {
       }),
     });
   },
-  container(category) {
+  Container(category) {
     const newsContainer = document.createElement('main');
     newsContainer.className = 'news-container';
     newsContainer.dataset.category = category;
@@ -95,5 +96,37 @@ export default {
     };
 
     oNewsContainer.addEventListener('click', handleClick);
+  },
+  createList(data, page = this.state.loadingPage) {
+    data = data || [];
+    const newsCardListTpl = data.reduce((newsCardTplFrag, news, index) => {
+      const {
+        url,
+        urlToImage,
+        title,
+        description,
+        source,
+        author,
+        publishedAt,
+      } = news;
+
+      const bookmarks = JSON.parse(localStorage.getItem(BOOKMARKS_ITEM)) || [];
+
+      const newsCardTpl = this.create({
+        page,
+        index,
+        urlToImage,
+        title,
+        description,
+        source: source.name,
+        author,
+        publishedAt: new Date(publishedAt).toLocaleString(),
+        isMarked: bookmarks.some((news) => news.url === url),
+      });
+
+      return newsCardTplFrag + newsCardTpl;
+    }, '');
+
+    return createFragment(newsCardListTpl);
   },
 };

@@ -44,7 +44,7 @@ const getUrlSearchParams = (key) => {
 
 /**
  * @param {any} data
- * @param {numlber} ttl Time to live (seconds)
+ * @param {number} ttl Time to live (seconds)
  * @returns {object} The data with expiration
  */
 const attachExpiration = (data, ttl) => {

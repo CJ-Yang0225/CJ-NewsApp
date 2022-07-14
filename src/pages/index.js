@@ -86,6 +86,8 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
         [category]: slicedNewsWithExpiration,
       });
       LoadingIcon.removeFrom(oNewsContainer);
+
+      return cachedNews[category][0] || [];
     }
 
     return cachedNews[category][page] || [];
@@ -117,6 +119,7 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
 
     if (!state.isLoading && detectScrolledToBottom()) {
       state.isLoading = true;
+      state.page++;
 
       if (state.page < state.maxPage) {
         const pullHint = createFragment(PullHint.create({ status: 'loading' }));
@@ -129,9 +132,7 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
         });
 
         const category = oNewsContainer.dataset.category;
-        state.page++;
         await delay(800); // to show pull hint
-
         populateNews(category);
       } else {
         const pullHint = createFragment(PullHint.create({ status: 'no-data' }));
@@ -157,13 +158,8 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
 
   function redirectToDetail({ page, index }) {
     const { cachedNews, category } = state;
-    const currentNews = cachedNews[category][page][index];
-    // localStorage.setItem('currentNews', JSON.stringify(currentNews));
-    // const currentUrl = location.pathname;
-    // location.href = `/detail.html?backUrl=${encodeURIComponent(
-    //   currentUrl
-    // )}`;
-    location.href = currentNews.url;
+    const targetNews = cachedNews[category][page][index];
+    window.open(targetNews.url, `detailPage-${targetNews.url}`);
   }
 
   function toggleBookmark({ page, index, isMarked }) {

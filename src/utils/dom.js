@@ -5,7 +5,6 @@
  * @param {string} htmlString
  * @returns {DocumentFragment} documentFragment node(s)
  */
-
 const createFragment = (htmlString) => {
   const templateElement = document.createElement('template');
   templateElement.innerHTML = htmlString;
@@ -38,29 +37,23 @@ const detectScrolledToBottom = () => {
 function getScrolledLength(element) {
   if (!element) {
     if (window.scrollX || window.pageXOffset) {
-      // window.pageXOffset/pageYOffset is a lagacy alias
+      // window.pageXOffset/pageYOffset is a legacy alias
       return {
         left: window.scrollX || window.pageXOffset,
         top: window.scrollY || window.pageYOffset,
       };
-    } else if (document.compatMode === 'BackCompat') {
-      // In quirks mode
-      return {
-        left: document.body.scrollLeft,
-        top: document.body.scrollTop,
-      };
-    } else {
-      return {
-        left: document.documentElement.scrollLeft,
-        top: document.documentElement.scrollTop,
-      };
     }
-  } else {
-    return {
-      left: element.scrollLeft,
-      top: element.scrollTop,
-    };
+
+    element =
+      document.compatMode === 'BackCompat'
+        ? document.body
+        : document.documentElement;
   }
+
+  return {
+    left: element.scrollLeft,
+    top: element.scrollTop,
+  };
 }
 
 function getViewportSize() {
@@ -72,7 +65,7 @@ function getViewportSize() {
     };
   } else {
     return {
-      width: document.documentElement.clientLeft,
+      width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,
     };
   }

@@ -15,6 +15,7 @@ export default {
     const {
       page,
       index,
+      url,
       urlToImage,
       title,
       description,
@@ -29,6 +30,7 @@ export default {
     return injectTpl(NewsCardTpl, {
       page,
       index,
+      url,
       urlToImage: urlToImage || '',
       title,
       description: description || '',
@@ -70,13 +72,12 @@ export default {
     const oNewsContainer = document.querySelector('.news-container');
 
     const handleClick = (event) => {
+      // Prevent click event of label from automatically triggering input and <a> tag default behavior
+      event.preventDefault();
       const target = event.target;
       const oNewsCard = target.closest('.news-card');
 
       if (target.closest('.news-card__bookmark')) {
-        // Prevent click event of label from automatically triggering input
-        event.preventDefault();
-
         const oBookmark = target.closest('.news-card__bookmark');
         const [oCheckbox] = oBookmark.children;
         const isMarked = (oCheckbox.checked = !oCheckbox.checked); // Manually change checkbox state
@@ -115,13 +116,14 @@ export default {
       const newsCardTpl = this.create({
         page,
         index,
+        url,
         urlToImage,
         title,
         description,
         source: source.name,
         author,
         publishedAt: new Date(publishedAt).toLocaleString(),
-        isMarked: bookmarks.some((news) => news.url === url),
+        isMarked: bookmarks.some((bookmark) => bookmark.url === url),
       });
 
       return newsCardTplFrag + newsCardTpl;

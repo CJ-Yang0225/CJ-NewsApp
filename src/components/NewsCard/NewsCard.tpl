@@ -9,9 +9,11 @@
       />
     </figure>
     <div class="news-card__content">
-      <h2 class="news-card__title" title="{{ title }}">
-        {{ title }}
-      </h2>
+      <a href="{{ url }}" target="_blank" rel="noreferrer">
+        <h2 class="news-card__title" title="{{ title }}">
+          {{ title }}
+        </h2>
+      </a>
       <p class="news-card__description">{{ description }}</p>
       <div class="news-card__info">
         <div class="news-card__source" style="{{ hasSource }}">

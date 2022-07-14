@@ -8,7 +8,8 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
 (function (doc, getBookmarks) {
   const state = {
     editMode: false,
-    bookmarkForEditing: [],
+    bookmarks: [],
+    bookmarksForEditing: [],
   };
 
   const oApp = doc.getElementById('app');
@@ -24,7 +25,7 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
   function render() {
     const headerTpl = Header.create({
       title: '已收藏的新聞',
-      backUrl: './index.html',
+      backUrl: '/',
       showBackIcon: true,
       showCollectionIcon: false,
       tpl: '<button id="management">管理</button>',
@@ -36,19 +37,18 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
 
   function useEvent() {
     NewsCard.onClick(dispatchAction);
-    oApp.querySelector('#management').addEventListener('click', switchEidtMode);
+    oApp.querySelector('#management').addEventListener('click', switchEditMode);
   }
 
-  function switchEidtMode(event) {
+  function switchEditMode(event) {
+    const { editMode: prevEditMode } = state;
     const oButton = event.currentTarget;
     const oNewsContainer = oApp.querySelector('.news-container');
 
-    const prevEditMode = state.editMode;
-    state.editMode = !state.editMode;
+    state.editMode = !prevEditMode;
 
     if (state.editMode) {
-      state.bookmarkForEditing = getBookmarks();
-      console.log(state.bookmarkForEditing);
+      state.bookmarksForEditing = getBookmarks();
 
       oButton.textContent = '確定';
       oNewsContainer.classList.add('news-container--editing');
@@ -58,16 +58,18 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
     }
 
     if (prevEditMode === true && state.editMode === false) {
-      setDataToLocalStorage(BOOKMARKS_ITEM, state.bookmarkForEditing);
-      oNewsContainer.innerHTML = '';
-      populateNews();
+      setDataToLocalStorage(BOOKMARKS_ITEM, state.bookmarksForEditing);
     }
+
+    oNewsContainer.innerHTML = '';
+    populateNews();
   }
 
   function populateNews() {
     const oNewsContainer = oApp.querySelector('.news-container');
 
-    const newsCardList = NewsCard.createList(getBookmarks());
+    state.bookmarks = getBookmarks() || [];
+    const newsCardList = NewsCard.createList(state.bookmarks);
     oNewsContainer.appendChild(newsCardList);
 
     NewsCard.triggerImagesFadeIn();
@@ -88,16 +90,23 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
   }
 
   function redirectToDetail({ index }) {
-    const bookmarks = getBookmarks();
-    const currentNews = bookmarks[index];
-    location.href = currentNews.url;
+    const bookmarks = state.bookmarks;
+    const targetBookmarks = bookmarks[index];
+    window.open(targetBookmarks.url, `detailPage-${targetBookmarks.url}`);
   }
 
   function toggleBookmark({ index, isMarked }) {
-    if (state.editMode && !isMarked) {
-      state.bookmarkForEditing = state.bookmarkForEditing.filter(
-        (_, bookmarkIndex) => bookmarkIndex != index
-      );
+    if (state.editMode) {
+      const { bookmarks, bookmarksForEditing } = state;
+      const targetBookmark = bookmarks[index];
+
+      if (!isMarked) {
+        state.bookmarksForEditing = bookmarksForEditing.filter(
+          (editingBookmark) => editingBookmark.url !== targetBookmark.url
+        );
+      } else {
+        state.bookmarksForEditing.splice(index, 0, targetBookmark);
+      }
     }
   }
 })(document, getDataFromLocalStorage.bind(window, BOOKMARKS_ITEM));

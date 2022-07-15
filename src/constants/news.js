@@ -29,8 +29,8 @@ const NEWS_LABELS = [
   },
 ];
 
-const TEMP_NEWS_LIST_ITEM = 'tempNews';
+const TEMP_NEWS_ITEM = 'tempNews';
 const CURRENT_NEWS_ITEM = 'currentNews';
 const BOOKMARKS_ITEM = 'bookmarks';
 
-export { NEWS_LABELS, TEMP_NEWS_LIST_ITEM, CURRENT_NEWS_ITEM, BOOKMARKS_ITEM };
+export { NEWS_LABELS, TEMP_NEWS_ITEM, CURRENT_NEWS_ITEM, BOOKMARKS_ITEM };

@@ -15,7 +15,7 @@ import {
   detectScrolledToBottom,
 } from '../utils';
 import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
-import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
+import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
 
 (function (doc) {
   const state = {
@@ -72,7 +72,7 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
     const { cachedNews, category } = state;
     const oNewsContainer = oApp.querySelector('.news-container');
 
-    const tempNews = getDataFromLocalStorage(TEMP_NEWS_LIST_ITEM) || {};
+    const tempNews = getDataFromLocalStorage(TEMP_NEWS_ITEM) || {};
     cachedNews[category] = getUnexpiredData(tempNews[category]);
 
     if (!cachedNews[category]) {
@@ -81,8 +81,8 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
       cachedNews[category] = slicedNews;
 
       const slicedNewsWithExpiration = attachExpiration(slicedNews, 5 * 60);
-      setDataToLocalStorage(TEMP_NEWS_LIST_ITEM, {
-        ...getDataFromLocalStorage(TEMP_NEWS_LIST_ITEM),
+      setDataToLocalStorage(TEMP_NEWS_ITEM, {
+        ...getDataFromLocalStorage(TEMP_NEWS_ITEM),
         [category]: slicedNewsWithExpiration,
       });
       LoadingIcon.removeFrom(oNewsContainer);
@@ -116,6 +116,7 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
 
   async function loadMoreNews() {
     const oNewsContainer = oApp.querySelector('.news-container');
+    const currentCategory = oNewsContainer.dataset.category;
 
     if (!state.isLoading && detectScrolledToBottom()) {
       state.isLoading = true;
@@ -131,9 +132,8 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_LIST_ITEM } from '../constants/news';
           behavior: 'smooth',
         });
 
-        const category = oNewsContainer.dataset.category;
         await delay(800); // to show pull hint
-        populateNews(category);
+        populateNews(currentCategory);
       } else {
         const pullHint = createFragment(PullHint.create({ status: 'no-data' }));
 

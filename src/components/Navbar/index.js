@@ -35,7 +35,7 @@ export default {
   onSwitch(emitSwitch) {
     const oNavbar = document.querySelector('.navbar');
     const oLabels = oNavbar.querySelectorAll('.navbar__label');
-    const handleSwitch = (event) => {
+    const handleClick = (event) => {
       const target = event.target;
 
       if (target.classList.contains('navbar__label')) {
@@ -47,11 +47,12 @@ export default {
           oLabels[currentIndex].classList.remove('navbar__label--activated');
           target.classList.add('navbar__label--activated');
           emitSwitch(target.dataset.category);
-          scrollToTop();
         }
+
+        scrollToTop();
       }
     };
 
-    oNavbar.addEventListener('click', handleSwitch);
+    oNavbar.addEventListener('click', handleClick);
   },
 };

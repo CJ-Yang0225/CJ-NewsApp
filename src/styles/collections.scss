@@ -26,6 +26,11 @@
   align-items: stretch;
   min-height: 100vh;
   background-color: var(--bg-color-dark);
+
+  .header {
+    position: sticky;
+    top: 0;
+  }
 }
 
 .news-container {

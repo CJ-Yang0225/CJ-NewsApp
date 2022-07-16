@@ -47,7 +47,7 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
     });
     const navbarTpl = Navbar.create({ activatedCategory: category });
 
-    oApp.innerHTML += headerTpl + navbarTpl;
+    oApp.insertAdjacentHTML('afterbegin', headerTpl + navbarTpl);
     oApp.appendChild(NewsCard.Container(category));
   }
 

@@ -1,3 +1,4 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common');
 const webpack = require('webpack');
@@ -17,6 +18,8 @@ module.exports = merge(commonConfig, {
     }),
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
+      analyzerMode: 'static',
+      reportFilename: '../build/report.html',
     }),
   ],
   module: {

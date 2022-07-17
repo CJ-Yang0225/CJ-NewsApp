@@ -23,10 +23,9 @@ module.exports = merge(commonConfig, {
     minimize: false,
   },
   plugins: [
+    // https://webpack.js.org/plugins/define-plugin/
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"development"', // JSON.stringify('development')
-      },
+      'process.env.NODE_ENV': '"development"', // JSON.stringify('development')
     }),
   ],
   devServer: {
@@ -37,7 +36,7 @@ module.exports = merge(commonConfig, {
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
-        pathRewrite: { '^/api': '' },
+        changeOrigin: true, // 設為 true 時後端接收的 request headers 中的 host 為 target 位址
       },
     },
     static: {

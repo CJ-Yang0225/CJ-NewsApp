@@ -8,10 +8,9 @@ const BundleAnalyzerPlugin =
 module.exports = merge(commonConfig, {
   mode: 'production',
   plugins: [
+    // https://webpack.js.org/plugins/define-plugin/
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"',
-      },
+      'process.env.NODE_ENV': '"production"',
     }),
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].[contenthash:8].css',

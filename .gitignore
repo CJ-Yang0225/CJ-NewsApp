@@ -13,3 +13,8 @@ node_modules/
 
 # Production
 /dist
+
+# webpack-bundle-analyzer report
+report.html
+
+.vercel

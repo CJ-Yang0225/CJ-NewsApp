@@ -9,10 +9,6 @@ module.exports = {
       import: path.resolve(__dirname, '../src/pages/index.js'),
       dependOn: 'common',
     },
-    detail: {
-      import: path.resolve(__dirname, '../src/pages/detail.js'),
-      dependOn: 'common',
-    },
     collections: {
       import: path.resolve(__dirname, '../src/pages/collections.js'),
       dependOn: 'common',
@@ -30,18 +26,6 @@ module.exports = {
       filename: 'index.html',
       title: '頭條新聞',
       chunks: ['common', 'index'],
-      chunksSortMode: 'manual',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-      },
-      excludeChunks: ['node_modules'],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/detail.html'),
-      filename: 'detail.html',
-      title: '新聞內容',
-      chunks: ['common', 'detail'],
       chunksSortMode: 'manual',
       minify: {
         removeComments: true,

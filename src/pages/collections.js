@@ -31,7 +31,7 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
       tpl: '<button id="management">管理</button>',
     });
 
-    oApp.insertAdjacentElement('afterbegin', headerTpl);
+    oApp.insertAdjacentHTML('afterbegin', headerTpl);
     oApp.appendChild(NewsCard.Container('all'));
   }
 

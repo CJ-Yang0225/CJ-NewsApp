@@ -1,12 +1,16 @@
 const Koa = require('koa');
-require('dotenv').config();
-const newsRouter = require('./routes/news.js');
+const Router = require('koa-router');
 
-const { PORT, HOSTNAME } = process.env;
 const app = new Koa();
+const router = new Router();
 
-app.use(newsRouter.routes());
+app.use(
+  router
+    .get('/', (ctx) => {
+      ctx.type = 'html';
+      ctx.body = "Hello I'm a proxy server. <a href='/api'>Get news json</a>";
+    })
+    .routes()
+);
 
-app.listen(PORT, HOSTNAME, () => {
-  console.log('Server is running on port:', PORT);
-});
+module.exports = app;

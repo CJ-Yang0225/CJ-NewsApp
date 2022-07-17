@@ -1,14 +1,14 @@
-<header class="header__container">
+<header class="header">
   <a
-    class="icon-link"
+    class=" icon-link"
     href="{{ backUrl }}"
     style="display: {{ showBackIcon }};"
   >
-    <span class="material-icons">arrow_back</span>
+    <span class="material-icons header__back-icon">arrow_back</span>
   </a>
   <div class="header__logo-wrapper">
     <a class="icon-link" href="./index.html">
-      <span class="material-icons icon" style="display: {{ showLogoIcon }};">
+      <span class="material-icons header__logo-icon" style="display: {{ showLogoIcon }};">
         logo_dev
       </span>
     </a>
@@ -17,8 +17,9 @@
   <a
     class="icon-link"
     href="./collections.html"
-    style="visibility: {{ showCollectionIcon }};"
+    style="display: {{ showCollectionIcon }};"
   >
     <span class="material-icons">collections_bookmark</span>
   </a>
+  {{ tpl }}
 </header>

@@ -1,16 +1,19 @@
 <article class="news-card" data-page="{{ page }}" data-index="{{ index }}">
-  <figure class="news-card__paper">
-    <div class="news-card__thumbnail-box">
+  <div class="news-card__paper">
+    <figure class="news-card__thumbnail-box">
       <img
         class="news-card__thumbnail"
         src="{{ urlToImage }}"
         alt=""
+        loading="lazy"
       />
-    </div>
-    <figcaption class="news-card__content">
-      <h2 class="news-card__title" title="{{ title }}">
-        {{ title }}
-      </h2>
+    </figure>
+    <div class="news-card__content">
+      <a href="{{ url }}" target="_blank" rel="noreferrer">
+        <h2 class="news-card__title" title="{{ title }}">
+          {{ title }}
+        </h2>
+      </a>
       <p class="news-card__description">{{ description }}</p>
       <div class="news-card__info">
         <div class="news-card__source" style="{{ hasSource }}">
@@ -29,9 +32,7 @@
       <span class="news-card__published-at">
         {{ publishedAt }}
       </span>
-      <span class="material-icons-outlined news-card__bookmark">
-        {{ isCollected }}
-      </span>
-    </figcaption>
-  </figure>
+      {{ Bookmark }}
+    </div>
+  </div>
 </article>

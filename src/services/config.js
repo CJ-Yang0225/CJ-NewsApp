@@ -1,1 +1,12 @@
-export const BASE_API = 'http://localhost:8080';
+const NODE_ENV = process.env.NODE_ENV;
+
+const config = {
+  development: {
+    PROXY_SERVER_HOST: 'http://localhost:3000',
+  },
+  production: {
+    PROXY_SERVER_HOST: 'https://cj-news-server.vercel.app',
+  },
+};
+
+export default config[NODE_ENV];

@@ -2,21 +2,11 @@ import '@/styles/resets.css';
 import '@/styles/border.css';
 import '@/styles/globals.css';
 
-import FastClick from './fastclick';
-
-window.addEventListener(
-  'load',
-  function () {
-    FastClick.attach(document.body);
-  },
-  false
-);
-
 document.documentElement.addEventListener(
   'touchmove',
-  function (e) {
-    if (e.touches.length > 1) {
-      e.preventDefault();
+  function (event) {
+    if (event.touches.length > 1) {
+      event.preventDefault();
     }
   },
   { passive: false }

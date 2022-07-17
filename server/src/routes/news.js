@@ -1,8 +1,10 @@
 const Router = require('koa-router');
-const { getSpecificNews } = require('../controllers/news.js');
+const { getNews } = require('../controllers/news.js');
 
 const router = new Router();
 
-router.get(['/', '/news'], getSpecificNews);
+router.prefix('/api')
+
+router.get(['/', '/news'], getNews);
 
 module.exports = router;

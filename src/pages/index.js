@@ -8,14 +8,18 @@ import PullHint from '../components/PullHint';
 import {
   createFragment,
   delay,
-  getDocumentSize,
-  getScrolledLength,
-  getViewportSize,
+  getDataFromLocalStorage,
+  setDataToLocalStorage,
+  attachExpiration,
+  getUnexpiredData,
+  detectScrolledToBottom,
 } from '../utils';
+import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
+import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
 
 (function (doc) {
   const state = {
-    category: 'top',
+    category: 'top', // TODO pathname: ?category=top
     cachedNews: {},
     page: 0,
     maxPage: 0,
@@ -43,13 +47,14 @@ import {
     });
     const navbarTpl = Navbar.create({ activatedCategory: category });
 
-    oApp.innerHTML += headerTpl + navbarTpl;
-    oApp.appendChild(NewsCard.container(category));
+    oApp.insertAdjacentHTML('afterbegin', headerTpl + navbarTpl);
+    oApp.appendChild(NewsCard.Container(category));
   }
 
   function useEvent() {
     Navbar.onSwitch(switchCategory);
-    window.addEventListener('scroll', loadMoreNews, false);
+    NewsCard.onClick(dispatchAction);
+    window.addEventListener('scroll', loadMoreNews, { passive: true });
   }
 
   function switchCategory(category) {
@@ -67,18 +72,25 @@ import {
     const { cachedNews, category } = state;
     const oNewsContainer = oApp.querySelector('.news-container');
 
-    if (cachedNews[category]) {
-      return cachedNews[category][page] || [];
-    } else {
+    const tempNews = getDataFromLocalStorage(TEMP_NEWS_ITEM) || {};
+    cachedNews[category] = getUnexpiredData(tempNews[category]);
+
+    if (!cachedNews[category]) {
       oNewsContainer.innerHTML = LoadingIcon.create({ status: 'loading' });
-      const { maxPage, slicedNews } = await request.getSlicedNews(category, 70);
-      state.maxPage = maxPage;
+      const slicedNews = await request.getSlicedNews(category, 70);
       cachedNews[category] = slicedNews;
-      await delay(500); // to show loading icon
+
+      const slicedNewsWithExpiration = attachExpiration(slicedNews, 5 * 60);
+      setDataToLocalStorage(TEMP_NEWS_ITEM, {
+        ...getDataFromLocalStorage(TEMP_NEWS_ITEM),
+        [category]: slicedNewsWithExpiration,
+      });
       LoadingIcon.removeFrom(oNewsContainer);
 
       return cachedNews[category][0] || [];
     }
+
+    return cachedNews[category][page] || [];
   }
 
   async function populateNews(category = state.category, page = state.page) {
@@ -91,29 +103,10 @@ import {
     }
 
     const slicedNewsByPage = await getNewsByPage(page);
-    const newsCardsTpl = slicedNewsByPage.reduce(
-      (newsCardsTplFrag, news, index) => {
-        const { urlToImage, title, description, source, author, publishedAt } =
-          news;
-        const newsCardTpl = NewsCard.create({
-          page,
-          index,
-          urlToImage,
-          title,
-          description,
-          source: source.name,
-          author,
-          publishedAt: new Date(publishedAt).toLocaleString(),
-          isCollected: false,
-        });
+    state.maxPage = slicedNewsByPage.length;
 
-        return newsCardsTplFrag + newsCardTpl;
-      },
-      ''
-    );
-    const newsCards = createFragment(newsCardsTpl);
-
-    oNewsContainer?.appendChild(newsCards);
+    const newsCardList = NewsCard.createList(slicedNewsByPage, page);
+    oNewsContainer.appendChild(newsCardList);
 
     NewsCard.triggerImagesFadeIn();
     PullHint.removeFrom(oNewsContainer);
@@ -123,13 +116,11 @@ import {
 
   async function loadMoreNews() {
     const oNewsContainer = oApp.querySelector('.news-container');
-    const hasScrollbar = getDocumentSize().height > getViewportSize().height;
-    const hasReachedBottom =
-      getScrolledLength().top + getViewportSize().height ===
-      getDocumentSize().height;
+    const currentCategory = oNewsContainer.dataset.category;
 
-    if (!state.isLoading && hasScrollbar && hasReachedBottom) {
+    if (!state.isLoading && detectScrolledToBottom()) {
       state.isLoading = true;
+      state.page++;
 
       if (state.page < state.maxPage) {
         const pullHint = createFragment(PullHint.create({ status: 'loading' }));
@@ -141,16 +132,47 @@ import {
           behavior: 'smooth',
         });
 
-        const category = oNewsContainer.dataset.category;
-        state.page++;
-        await delay(1000); // to show pull hint
-
-        populateNews(category);
+        await delay(800); // to show pull hint
+        populateNews(currentCategory);
       } else {
         const pullHint = createFragment(PullHint.create({ status: 'no-data' }));
 
         oNewsContainer.appendChild(pullHint);
       }
     }
+  }
+
+  function dispatchAction(action) {
+    const { type, payload } = action;
+
+    switch (type) {
+      case REDIRECT_TO_DETAIL:
+        redirectToDetail(payload);
+        break;
+
+      case TOGGLE_BOOKMARK:
+        toggleBookmark(payload);
+        break;
+    }
+  }
+
+  function redirectToDetail({ page, index }) {
+    const { cachedNews, category } = state;
+    const targetNews = cachedNews[category][page][index];
+    window.open(targetNews.url, `detailPage-${targetNews.url}`);
+  }
+
+  function toggleBookmark({ page, index, isMarked }) {
+    const { cachedNews, category } = state;
+    let bookmarks = getDataFromLocalStorage(BOOKMARKS_ITEM) || [];
+    const targetNews = cachedNews[category][page][index];
+
+    if (isMarked) {
+      bookmarks.push(targetNews);
+    } else {
+      bookmarks = bookmarks.filter((news) => news.url !== targetNews.url);
+    }
+
+    setDataToLocalStorage(BOOKMARKS_ITEM, bookmarks);
   }
 })(document);

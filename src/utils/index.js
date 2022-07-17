@@ -1,4 +1,4 @@
 export * from './data';
 export * from './dom';
-export * from './view';
+export { default as HTTP } from './http';
 export { default as EventStore } from './event';

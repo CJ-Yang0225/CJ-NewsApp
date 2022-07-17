@@ -1,11 +1,14 @@
 import HTTP from '../utils/http';
 import { formatParams, sliceNewsByCount } from '../utils';
+import apiConfig from '../services/config';
+
+const HOST = apiConfig.PROXY_SERVER_HOST;
 
 class Request extends HTTP {
   getSlicedNews(category, totalNews = 30) {
     return new Promise((resolve, reject) => {
       const url = formatParams(
-        '/api/news',
+        `${HOST}/api/news`,
         [
           ['category', category],
           ['pageSize', totalNews],
@@ -16,9 +19,8 @@ class Request extends HTTP {
       this.get(url, {
         onSuccess(result) {
           const news = result.articles;
-          const maxPage = Math.ceil(result.totalResults / 10) - 1;
           const slicedNews = sliceNewsByCount(news, 10);
-          resolve({ maxPage, slicedNews });
+          resolve(slicedNews);
         },
         onError(error) {
           reject(error);

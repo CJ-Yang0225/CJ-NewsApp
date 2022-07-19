@@ -1,15 +1,17 @@
 import './Bookmark.scss';
 import BookmarkTpl from './Bookmark.tpl';
-import { injectTpl } from '../../utils';
+import { createFragment, injectTpl } from '../../utils';
 
-export default {
-  name: 'Bookmark',
-  create(props) {
-    const { isMarked, className = '' } = props;
-
-    return injectTpl(BookmarkTpl, {
+class Bookmark {
+  constructor({ isMarked, className = '' }) {
+    this.tpl = injectTpl(BookmarkTpl, {
       className,
       checked: isMarked ? 'checked' : '',
     });
-  },
-};
+
+    const content = createFragment(this.tpl);
+    this.el = content.firstElementChild;
+  }
+}
+
+export default Bookmark;

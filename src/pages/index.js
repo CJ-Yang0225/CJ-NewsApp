@@ -1,32 +1,46 @@
 import '../styles/index.scss';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import NewsContainer from '../components/NewsContainer';
 import NewsCard from '../components/NewsCard';
-import request from '../services/request';
-import LoadingIcon from '../components/Icon';
+import Icon from '../components/Icon';
 import PullHint from '../components/PullHint';
+import request from '../services/request';
 import {
-  createFragment,
   delay,
   getDataFromLocalStorage,
   setDataToLocalStorage,
   attachExpiration,
   getUnexpiredData,
   detectScrolledToBottom,
+  getURLSearchParamValue,
 } from '../utils';
 import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
-import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
+import { BOOKMARKS_ITEM, NEWS_LABELS, TEMP_NEWS_ITEM } from '../constants/news';
 
 (function (doc) {
   const state = {
-    category: 'top', // TODO pathname: ?category=top
+    category: NEWS_LABELS.find(
+      ({ category }) =>
+        category === (getURLSearchParamValue('category') || 'top')
+    )['category'],
     cachedNews: {},
     page: 0,
     maxPage: 0,
     isLoading: true,
   };
 
+  /* app root */
   const oApp = doc.getElementById('app');
+
+  /* components */
+  const header = new Header({
+    title: '頭條新聞',
+    showBackIcon: false,
+    showCollectionIcon: true,
+  });
+  const navbar = new Navbar({ activatedCategory: state.category });
+  const newsContainer = new NewsContainer({ category: state.category });
 
   const init = async () => {
     render();
@@ -37,28 +51,17 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
   init();
 
   function render() {
-    const { category } = state;
-
-    const headerTpl = Header.create({
-      title: '頭條新聞',
-      backUrl: 'javascript:;',
-      showBackIcon: false,
-      showCollectionIcon: true,
-    });
-    const navbarTpl = Navbar.create({ activatedCategory: category });
-
-    oApp.insertAdjacentHTML('afterbegin', headerTpl + navbarTpl);
-    oApp.appendChild(NewsCard.Container(category));
+    oApp.append(header.el, navbar.el, newsContainer.el);
   }
 
   function useEvent() {
-    Navbar.onSwitch(switchCategory);
-    NewsCard.onClick(dispatchAction);
+    navbar.onSwitch(switchCategory);
+    newsContainer.onClick(dispatchAction);
     window.addEventListener('scroll', loadMoreNews, { passive: true });
   }
 
   function switchCategory(category) {
-    const oNewsContainer = oApp.querySelector('.news-container');
+    const oNewsContainer = newsContainer.el;
 
     state.category = category;
     state.page = 0;
@@ -70,13 +73,15 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
 
   async function getNewsByPage(page = state.page) {
     const { cachedNews, category } = state;
-    const oNewsContainer = oApp.querySelector('.news-container');
+    const oNewsContainer = newsContainer.el;
 
     const tempNews = getDataFromLocalStorage(TEMP_NEWS_ITEM) || {};
     cachedNews[category] = getUnexpiredData(tempNews[category]);
 
-    if (!cachedNews[category]) {
-      oNewsContainer.innerHTML = LoadingIcon.create({ status: 'loading' });
+    if (!cachedNews[category] || cachedNews[category].length === 0) {
+      const loadingIcon = new Icon({ status: 'loading' });
+      oNewsContainer.appendChild(loadingIcon.el);
+
       const slicedNews = await request.getSlicedNews(category, 70);
       cachedNews[category] = slicedNews;
 
@@ -85,7 +90,7 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
         ...getDataFromLocalStorage(TEMP_NEWS_ITEM),
         [category]: slicedNewsWithExpiration,
       });
-      LoadingIcon.removeFrom(oNewsContainer);
+      loadingIcon.el.remove();
 
       return cachedNews[category][0] || [];
     }
@@ -94,9 +99,8 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
   }
 
   async function populateNews(category = state.category, page = state.page) {
-    const oNewsContainer = oApp.querySelector(
-      `.news-container[data-category="${category}"]`
-    );
+    const oNewsContainer =
+      newsContainer.el.dataset.category === category && newsContainer.el;
 
     if (!oNewsContainer) {
       return;
@@ -108,14 +112,13 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
     const newsCardList = NewsCard.createList(slicedNewsByPage, page);
     oNewsContainer.appendChild(newsCardList);
 
-    NewsCard.triggerImagesFadeIn();
-    PullHint.removeFrom(oNewsContainer);
+    NewsCard.triggerImagesFadeIn(page);
 
     state.isLoading = false;
   }
 
   async function loadMoreNews() {
-    const oNewsContainer = oApp.querySelector('.news-container');
+    const oNewsContainer = newsContainer.el;
     const currentCategory = oNewsContainer.dataset.category;
 
     if (!state.isLoading && detectScrolledToBottom()) {
@@ -123,21 +126,22 @@ import { BOOKMARKS_ITEM, TEMP_NEWS_ITEM } from '../constants/news';
       state.page++;
 
       if (state.page < state.maxPage) {
-        const pullHint = createFragment(PullHint.create({ status: 'loading' }));
-        oNewsContainer.appendChild(pullHint);
+        const pullHint = new PullHint({ status: 'loading' });
+        oNewsContainer.appendChild(pullHint.el);
 
-        const pullHintHeight = oNewsContainer.lastElementChild.offsetHeight;
+        const pullHintHeight = pullHint.el.offsetHeight;
         window.scrollBy({
           top: pullHintHeight,
           behavior: 'smooth',
         });
 
         await delay(800); // to show pull hint
-        populateNews(currentCategory);
+        await populateNews(currentCategory);
+        pullHint.el.remove();
       } else {
-        const pullHint = createFragment(PullHint.create({ status: 'no-data' }));
+        const pullHint = new PullHint({ status: 'no-data' });
 
-        oNewsContainer.appendChild(pullHint);
+        oNewsContainer.appendChild(pullHint.el);
       }
     }
   }

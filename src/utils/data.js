@@ -35,11 +35,34 @@ const sliceNewsByCount = (news = [], count = 10) => {
   return slicedNews;
 };
 
-const getUrlSearchParams = (key) => {
-  const regExp = new RegExp(`(^|&)${key}=([^&#]*)(|&$)`, 'i');
-  const result = location.search.substring(1).match(regExp);
+const getURLSearchParamValue = (key) => {
+  const regExp = new RegExp(`^[?|&]${encodeURIComponent(key)}=([^&#?]*)`, 'i');
+  const result = location.search.match(regExp);
 
-  return result ? decodeURIComponent(result[2]) : null;
+  return result ? decodeURIComponent(result[1]) : null;
+};
+
+const setURLSearchParam = (key, value) => {
+  const searchParams = location.search;
+  let newSearchParams = null;
+
+  if (searchParams.includes(key)) {
+    newSearchParams = searchParams.replace(
+      /([?|&])([^&#?]+)=([^&#?]*)/gi,
+      (matched, p1, p2, p3) => {
+        if (p2 === key && p3 !== value) {
+          return `${p1}${p2}=${value}`;
+        }
+        return matched;
+      }
+    );
+  } else {
+    newSearchParams = searchParams.length
+      ? searchParams + `&${key}=${value}`
+      : searchParams + `?${key}=${value}`;
+  }
+
+  history.pushState({ [key]: value }, '', newSearchParams);
 };
 
 /**
@@ -108,7 +131,8 @@ export {
   injectTpl,
   formatParams,
   sliceNewsByCount,
-  getUrlSearchParams,
+  getURLSearchParamValue,
+  setURLSearchParam,
   attachExpiration,
   setDataToLocalStorage,
   getUnexpiredData,

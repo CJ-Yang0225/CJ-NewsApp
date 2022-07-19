@@ -1,19 +1,10 @@
 import './Header.scss';
 import HeaderTpl from './Header.tpl';
-import { injectTpl } from '../../utils';
+import { createFragment, injectTpl } from '../../utils';
 
-export default {
-  name: 'Header',
-  create(props) {
-    const {
-      title,
-      backUrl,
-      showBackIcon,
-      showCollectionIcon,
-      tpl = '',
-    } = props;
-
-    return injectTpl(HeaderTpl, {
+class Header {
+  constructor({ title, backUrl, showBackIcon, showCollectionIcon, tpl = '' }) {
+    this.tpl = injectTpl(HeaderTpl, {
       title,
       backUrl,
       showBackIcon: showBackIcon ? ' inline-block' : ' none',
@@ -21,18 +12,10 @@ export default {
       showCollectionIcon: showCollectionIcon ? ' inline-block' : ' none',
       tpl,
     });
-  },
-  onChangeForBookmark(emitChange) {
-    const oBookmarkCheckbox = document.querySelector(
-      '.header__bookmark input[type="checkbox"]'
-    );
 
-    const handleChange = () => {
-      const isMarked = oBookmarkCheckbox.checked;
+    const content = createFragment(this.tpl);
+    this.el = content.firstElementChild;
+  }
+}
 
-      emitChange(isMarked);
-    };
-
-    oBookmarkCheckbox.addEventListener('change', handleChange);
-  },
-};
+export default Header;

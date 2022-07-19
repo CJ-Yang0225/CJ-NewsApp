@@ -1,17 +1,16 @@
 import './PullHint.scss';
 import PullHintTpl from './PullHint.tpl';
-import { injectTpl } from '../../utils';
+import { createFragment, injectTpl } from '../../utils';
 import Icon from '../Icon';
 import iconUrl from '../../assets/images/spin_loading.gif';
 
-export default {
-  name: 'PullHint',
-  create(props) {
-    const { status, text } = props;
+class PullHint {
+  constructor({ status, text }) {
+    const spinIcon = new Icon({ iconUrl, className: ' pull-hint__icon' });
 
-    return injectTpl(PullHintTpl, {
+    this.tpl = injectTpl(PullHintTpl, {
       status: status ? ` pull-hint--${status}` : '',
-      Icon: Icon.create({ iconUrl, className: ' pull-hint__icon' }),
+      Icon: spinIcon.tpl,
       text:
         text ||
         (status === 'loading'
@@ -20,9 +19,10 @@ export default {
           ? '沒有更多新聞了'
           : ''),
     });
-  },
-  removeFrom(parentEl) {
-    const oPullHint = parentEl?.querySelector('.pull-hint');
-    oPullHint?.remove();
-  },
-};
+
+    const content = createFragment(this.tpl);
+    this.el = content.firstElementChild;
+  }
+}
+
+export default PullHint;

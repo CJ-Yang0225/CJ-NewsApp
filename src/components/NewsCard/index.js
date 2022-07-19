@@ -2,32 +2,27 @@ import './NewsCard.scss';
 import NewsCardTpl from './NewsCard.tpl';
 import Bookmark from '../Bookmark';
 import { createFragment, injectTpl } from '../../utils';
-import {
-  REDIRECT_TO_DETAIL,
-  TOGGLE_BOOKMARK,
-} from '../../constants/actionTypes';
 import { BOOKMARKS_ITEM } from '../../constants/news';
 
-export default {
-  name: 'NewsCard',
-  state: { loadingPage: -1 },
-  create(props) {
-    const {
-      page,
-      index,
-      url,
-      urlToImage,
-      title,
-      description,
-      source,
-      author,
-      publishedAt,
+class NewsCard {
+  constructor({
+    page,
+    index,
+    url,
+    urlToImage,
+    title,
+    description,
+    source,
+    author,
+    publishedAt,
+    isMarked,
+  }) {
+    const bookmark = new Bookmark({
       isMarked,
-    } = props;
+      className: ' news-card__bookmark',
+    });
 
-    this.state.loadingPage = page;
-
-    return injectTpl(NewsCardTpl, {
+    this.tpl = injectTpl(NewsCardTpl, {
       page,
       index,
       url,
@@ -39,66 +34,14 @@ export default {
       hasSource: source ? '' : 'display: none;',
       hasAuthor: author ? '' : 'display: none;',
       publishedAt,
-      Bookmark: Bookmark.create({
-        isMarked,
-        className: ' news-card__bookmark',
-      }),
+      Bookmark: bookmark.tpl,
     });
-  },
-  Container(category) {
-    const newsContainer = document.createElement('main');
-    newsContainer.className = 'news-container';
-    newsContainer.dataset.category = category;
 
-    return newsContainer;
-  },
-  triggerImagesFadeIn() {
-    const { loadingPage } = this.state;
-    const oImages = document.querySelectorAll(
-      `.news-card[data-page="${loadingPage}"] .news-card__thumbnail`
-    );
-    oImages.forEach((oImage) => {
-      // image is cached by browser
-      if (oImage.complete) {
-        oImage.style.animationPlayState = 'running';
-      } else {
-        oImage.onload = () => {
-          oImage.style.animationPlayState = 'running';
-        };
-      }
-    });
-  },
-  onClick(emitClick) {
-    const oNewsContainer = document.querySelector('.news-container');
+    const content = createFragment(this.tpl);
+    this.el = content.firstElementChild;
+  }
 
-    const handleClick = (event) => {
-      // Prevent click event of label from automatically triggering input and <a> tag default behavior
-      event.preventDefault();
-      const target = event.target;
-      const oNewsCard = target.closest('.news-card');
-
-      if (target.closest('.news-card__bookmark')) {
-        const oBookmark = target.closest('.news-card__bookmark');
-        const [oCheckbox] = oBookmark.children;
-        const isMarked = (oCheckbox.checked = !oCheckbox.checked); // Manually change checkbox state
-
-        emitClick({
-          type: TOGGLE_BOOKMARK,
-          payload: { ...oNewsCard.dataset, isMarked },
-        });
-      } else if (
-        target.closest('.news-card__title') ||
-        target.closest('.news-card__thumbnail')
-      ) {
-        if (oNewsCard) {
-          emitClick({ type: REDIRECT_TO_DETAIL, payload: oNewsCard.dataset });
-        }
-      }
-    };
-
-    oNewsContainer.addEventListener('click', handleClick);
-  },
-  createList(data, page = this.state.loadingPage) {
+  static createList(data, page = 0) {
     data = data || [];
     const newsCardListTpl = data.reduce((newsCardTplFrag, news, index) => {
       const {
@@ -113,7 +56,9 @@ export default {
 
       const bookmarks = JSON.parse(localStorage.getItem(BOOKMARKS_ITEM)) || [];
 
-      const newsCardTpl = this.create({
+      const NewsCard = this;
+
+      const newsCard = new NewsCard({
         page,
         index,
         url,
@@ -126,9 +71,117 @@ export default {
         isMarked: bookmarks.some((bookmark) => bookmark.url === url),
       });
 
-      return newsCardTplFrag + newsCardTpl;
+      return newsCardTplFrag + newsCard.tpl;
     }, '');
 
     return createFragment(newsCardListTpl);
-  },
-};
+  }
+
+  static triggerImagesFadeIn(page = 0) {
+    const oImages = document.querySelectorAll(
+      `.news-card[data-page="${page}"] .news-card__thumbnail`
+    );
+    oImages.forEach((oImage) => {
+      // image is cached by browser
+      if (oImage.complete) {
+        oImage.style.animationPlayState = 'running';
+      } else {
+        oImage.onload = () => {
+          oImage.style.animationPlayState = 'running';
+        };
+      }
+    });
+  }
+}
+
+export default NewsCard;
+
+// export default {
+//   name: 'NewsCard',
+//   state: { loadingPage: -1 },
+//   create(props) {
+//     const {
+//       page,
+//       index,
+//       url,
+//       urlToImage,
+//       title,
+//       description,
+//       source,
+//       author,
+//       publishedAt,
+//       isMarked,
+//     } = props;
+
+//     this.state.loadingPage = page;
+
+//     const bookmark = new Bookmark({
+//       isMarked,
+//       className: ' news-card__bookmark',
+//     });
+
+//     return injectTpl(NewsCardTpl, {
+//       page,
+//       index,
+//       url,
+//       urlToImage: urlToImage || '',
+//       title,
+//       description: description || '',
+//       source: source || '',
+//       author: author || '',
+//       hasSource: source ? '' : 'display: none;',
+//       hasAuthor: author ? '' : 'display: none;',
+//       publishedAt,
+//       Bookmark: bookmark.tpl,
+//     });
+//   },
+//   createList(data, page = this.state.loadingPage) {
+//     data = data || [];
+//     const newsCardListTpl = data.reduce((newsCardTplFrag, news, index) => {
+//       const {
+//         url,
+//         urlToImage,
+//         title,
+//         description,
+//         source,
+//         author,
+//         publishedAt,
+//       } = news;
+
+//       const bookmarks = JSON.parse(localStorage.getItem(BOOKMARKS_ITEM)) || [];
+
+//       const newsCardTpl = this.create({
+//         page,
+//         index,
+//         url,
+//         urlToImage,
+//         title,
+//         description,
+//         source: source.name,
+//         author,
+//         publishedAt: new Date(publishedAt).toLocaleString(),
+//         isMarked: bookmarks.some((bookmark) => bookmark.url === url),
+//       });
+
+//       return newsCardTplFrag + newsCardTpl;
+//     }, '');
+
+//     return createFragment(newsCardListTpl);
+//   },
+//   triggerImagesFadeIn() {
+//     const { loadingPage } = this.state;
+//     const oImages = document.querySelectorAll(
+//       `.news-card[data-page="${loadingPage}"] .news-card__thumbnail`
+//     );
+//     oImages.forEach((oImage) => {
+//       // image is cached by browser
+//       if (oImage.complete) {
+//         oImage.style.animationPlayState = 'running';
+//       } else {
+//         oImage.onload = () => {
+//           oImage.style.animationPlayState = 'running';
+//         };
+//       }
+//     });
+//   },
+// };

@@ -1,21 +1,19 @@
 import './Icon.scss';
 import IconTpl from './Icon.tpl';
-import { injectTpl } from '../../utils';
+import { createFragment, injectTpl } from '../../utils';
 import loadingIconUrl from '../../assets/images/loading.gif';
 
-export default {
-  name: 'Icon',
-  create(props) {
-    const { status, className = '', iconUrl } = props;
-
-    return injectTpl(IconTpl, {
+class Icon {
+  constructor({ status, className = '', iconUrl }) {
+    this.tpl = injectTpl(IconTpl, {
       iconUrl: iconUrl || loadingIconUrl,
       status: status ? ` icon-tpl--${status}` : '',
       className,
     });
-  },
-  removeFrom(parentEl) {
-    const oIcon = parentEl?.querySelector('.icon-tpl');
-    oIcon?.remove();
-  },
-};
+
+    const content = createFragment(this.tpl);
+    this.el = content.firstElementChild;
+  }
+}
+
+export default Icon;

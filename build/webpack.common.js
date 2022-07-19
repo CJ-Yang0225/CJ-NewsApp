@@ -25,6 +25,7 @@ module.exports = {
       template: path.resolve(__dirname, '../public/index.html'),
       filename: 'index.html',
       title: '頭條新聞',
+      favicon: path.resolve(__dirname, '../public/favicon.ico'),
       chunks: ['common', 'index'],
       chunksSortMode: 'manual',
       minify: {
@@ -37,6 +38,7 @@ module.exports = {
       template: path.resolve(__dirname, '../public/collections.html'),
       filename: 'collections.html',
       title: '已收藏的新聞',
+      favicon: path.resolve(__dirname, '../public/favicon.ico'),
       chunks: ['common', 'collections'],
       chunksSortMode: 'manual',
       minify: {

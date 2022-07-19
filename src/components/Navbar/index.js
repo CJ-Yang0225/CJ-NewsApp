@@ -1,5 +1,5 @@
 import './Navbar.scss';
-import NavbarTpl from './NavBar.tpl';
+import NavbarTpl from './Navbar.tpl';
 import LabelTpl from './Label.tpl';
 import { injectTpl, scrollToTop } from '../../utils';
 import { NEWS_LABELS } from '../../constants/news';

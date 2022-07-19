@@ -40,11 +40,5 @@
 }
 
 .news-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  background-color: var(--bg-color-dark);
   flex-grow: 1;
 }

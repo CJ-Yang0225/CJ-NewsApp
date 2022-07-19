@@ -120,6 +120,25 @@
 
 @media screen and (min-width: 1280px) {
   .news-card {
+    width: 50%;
+
+    &__paper {
+      flex-direction: column;
+      height: 36rem;
+    }
+
+    &__thumbnail-box {
+      max-width: unset;
+      max-height: 50%;
+      height: 100%;
+    }
+
+    &__content {
+      max-width: unset;
+      max-height: 50%;
+      height: 100%;
+    }
+
     &__title {
       font-size: 1.6rem;
     }

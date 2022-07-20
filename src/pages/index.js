@@ -17,6 +17,8 @@ import {
 } from '../utils';
 import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
 import { BOOKMARKS_ITEM, NEWS_LABELS, TEMP_NEWS_ITEM } from '../constants/news';
+import { throttle } from '../utils/event';
+import Widgets from '../components/Widgets';
 
 (function (doc) {
   const state = {
@@ -41,6 +43,7 @@ import { BOOKMARKS_ITEM, NEWS_LABELS, TEMP_NEWS_ITEM } from '../constants/news';
   });
   const navbar = new Navbar({ activatedCategory: state.category });
   const newsContainer = new NewsContainer({ category: state.category });
+  const widgets = new Widgets();
 
   const init = async () => {
     render();
@@ -51,13 +54,15 @@ import { BOOKMARKS_ITEM, NEWS_LABELS, TEMP_NEWS_ITEM } from '../constants/news';
   init();
 
   function render() {
-    oApp.append(header.el, navbar.el, newsContainer.el);
+    oApp.append(header.el, navbar.el, newsContainer.el, widgets.el);
   }
 
   function useEvent() {
     navbar.onSwitch(switchCategory);
     newsContainer.onClick(dispatchAction);
-    window.addEventListener('scroll', loadMoreNews, { passive: true });
+    window.addEventListener('scroll', throttle(loadMoreNews, 100), {
+      passive: true,
+    });
   }
 
   function switchCategory(category) {
@@ -111,10 +116,9 @@ import { BOOKMARKS_ITEM, NEWS_LABELS, TEMP_NEWS_ITEM } from '../constants/news';
 
     const newsCardList = NewsCard.createList(slicedNewsByPage, page);
     oNewsContainer.appendChild(newsCardList);
+    state.isLoading = false;
 
     NewsCard.triggerImagesFadeIn(page);
-
-    state.isLoading = false;
   }
 
   async function loadMoreNews() {

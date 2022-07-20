@@ -1,5 +1,5 @@
 <div class="widgets {{ className }}">
-  <label class="toggle-theme widgets__item">
+  <label class="toggle-theme widgets__item" aria-label="Toggle theme">
     <input class="toggle-theme__checkbox" type="checkbox" />
     <span class="material-icons-outlined toggle-theme__light-icon">
       light_mode.
@@ -8,7 +8,7 @@
       mode_night
     </span>
   </label>
-  <button class="back-to-top widgets__item">
+  <button class="back-to-top widgets__item" aria-label="Back to top">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 384 512"

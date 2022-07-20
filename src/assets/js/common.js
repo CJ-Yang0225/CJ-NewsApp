@@ -1,6 +1,6 @@
 import '@/styles/resets.css';
 import '@/styles/border.css';
-import '@/styles/globals.css';
+import '@/styles/globals.scss';
 
 document.documentElement.addEventListener(
   'touchmove',

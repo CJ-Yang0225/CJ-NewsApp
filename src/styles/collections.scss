@@ -1,31 +1,10 @@
 #app {
-  /* Header */
-  --header-back-icon-dark: #ff7b75;
-  --header-btn-bg-dark: transparent;
-  --header-btn-text-dark: #ffffff;
-  --header-btn-border-dark: #ff7b75;
-
-  /* NewCard */
-  --news-card-bg-dark: #23252f;
-  --news-card-title-dark: #ffffff;
-  --news-card-text-dark: #ffffff;
-  --news-card-icon-dark: #ff7b75;
-  --news-card-thumbnail-bg-dark: #a7a8ac;
-  --news-card-source-icon-dark: #74d0ed;
-  --news-card-author-icon-dark: #dfc683;
-
-  /* Bookmark */
-  --bookmark-icon-dark: #ff7b75;
-  --bookmark-icon-dark_marked: var(--bookmark-icon-dark);
-  --bookmark-bg-dark: transparent;
-  --bookmark-bg-dark_hover: #8f8f8f1a;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
   min-height: 100vh;
-  background-color: var(--bg-color-dark);
+  background-color: var(--bg-color);
 
   .header {
     position: sticky;
@@ -34,12 +13,6 @@
 }
 
 .news-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  background-color: var(--bg-color-dark);
   flex-grow: 1;
 
   .news-card__bookmark {

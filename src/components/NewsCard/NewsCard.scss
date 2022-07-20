@@ -9,14 +9,15 @@
     align-items: stretch;
     height: 16.8rem;
     border-radius: 1.6rem;
-    background-color: var(--news-card-bg-dark);
+    background-color: var(--news-card-bg);
+    border: 1px solid var(--news-card-border);
     overflow: hidden;
   }
 
   &__thumbnail-box {
     max-width: 40%;
     width: 100%;
-    background-color: var(--news-card-thumbnail-bg-dark);
+    background-color: var(--news-card-thumbnail-bg);
   }
 
   &__thumbnail {
@@ -36,12 +37,11 @@
     max-width: 60%;
     width: 100%;
     padding: 1.75rem 1.2rem;
-    box-sizing: border-box;
   }
 
   &__title {
     display: -webkit-box;
-    color: var(--news-card-title-dark);
+    color: var(--news-card-title);
     font-size: 1.5rem;
     line-height: 2.2rem;
     -webkit-box-orient: vertical;
@@ -76,7 +76,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    color: var(--news-card-text-dark);
+    color: var(--news-card-text);
 
     .text {
       white-space: nowrap;
@@ -86,18 +86,18 @@
   }
 
   &__source .icon {
-    color: var(--news-card-source-icon-dark);
+    color: var(--news-card-source-icon);
   }
 
   &__author .icon {
-    color: var(--news-card-author-icon-dark);
+    color: var(--news-card-author-icon);
   }
 
   &__published-at {
     align-self: flex-end;
     margin-right: 3rem;
     font-size: 1.2rem;
-    color: var(--news-card-text-dark);
+    color: var(--news-card-text);
     opacity: 0.9;
   }
 
@@ -105,7 +105,10 @@
     position: absolute;
     right: 1rem;
     bottom: 1.25rem;
-    color: var(--news-card-icon-dark);
+
+    .bookmark__icon {
+      color: var(--news-card-icon);
+    }
   }
 }
 
@@ -120,6 +123,25 @@
 
 @media screen and (min-width: 1280px) {
   .news-card {
+    width: 50%;
+
+    &__paper {
+      flex-direction: column;
+      height: 36rem;
+    }
+
+    &__thumbnail-box {
+      max-width: unset;
+      max-height: 50%;
+      height: 100%;
+    }
+
+    &__content {
+      max-width: unset;
+      max-height: 50%;
+      height: 100%;
+    }
+
     &__title {
       font-size: 1.6rem;
     }
@@ -130,7 +152,7 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
       font-size: 1.25rem;
-      color: var(--news-card-text-dark);
+      color: var(--news-card-text);
     }
 
     &__info {

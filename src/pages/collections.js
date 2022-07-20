@@ -4,6 +4,7 @@ import { getDataFromLocalStorage, setDataToLocalStorage } from '../utils';
 import NewsCard from '../components/NewsCard';
 import { BOOKMARKS_ITEM } from '../constants/news';
 import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
+import NewsContainer from '../components/NewsContainer';
 
 (function (doc, getBookmarks) {
   const state = {
@@ -14,6 +15,16 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
 
   const oApp = doc.getElementById('app');
 
+  /* components */
+  const header = new Header({
+    title: '已收藏的新聞',
+    backUrl: '/',
+    showBackIcon: true,
+    showCollectionIcon: false,
+    tpl: '<button id="management">管理</button>',
+  });
+  const newsContainer = new NewsContainer({ category: 'all' });
+
   const init = () => {
     render();
     populateNews();
@@ -23,21 +34,12 @@ import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
   init();
 
   function render() {
-    const headerTpl = Header.create({
-      title: '已收藏的新聞',
-      backUrl: '/',
-      showBackIcon: true,
-      showCollectionIcon: false,
-      tpl: '<button id="management">管理</button>',
-    });
-
-    oApp.insertAdjacentHTML('afterbegin', headerTpl);
-    oApp.appendChild(NewsCard.Container('all'));
+    oApp.append(header.el, newsContainer.el);
   }
 
   function useEvent() {
-    NewsCard.onClick(dispatchAction);
     oApp.querySelector('#management').addEventListener('click', switchEditMode);
+    newsContainer.onClick(dispatchAction);
   }
 
   function switchEditMode(event) {

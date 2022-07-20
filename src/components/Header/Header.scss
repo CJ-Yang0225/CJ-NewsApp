@@ -4,13 +4,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.8rem 1.2rem;
-  background-color: var(--bg-color-dark);
-  color: var(--header-title-dark);
+  background-color: var(--bg-color);
+  color: var(--header-title);
   z-index: 99;
-  box-shadow: 0 1px 3px #ffffff1f, 0 1px 2px #ffffff3d;
+  box-shadow: 0 1px 3px var(--header-box-shadow-01),
+    0 1px 2px var(--header-box-shadow-02);
 
   &__back-icon {
-    color: var(--header-back-icon-dark);
+    color: var(--header-back-icon);
   }
 
   &__logo-wrapper {
@@ -20,7 +21,7 @@
   }
 
   &__logo-icon {
-    color: var(--header-logo-dark);
+    color: var(--header-logo);
     font-size: 3.6rem;
   }
 
@@ -33,9 +34,9 @@
   #management {
     padding: 0.4rem 1.6rem;
     border-radius: 2.4rem;
-    border: 0.2rem solid var(--header-btn-border-dark);
+    border: 0.2rem solid var(--header-btn-border);
     background-color: transparent;
-    color: var(--header-btn-text-dark);
+    color: var(--header-btn-text);
     font-size: 1.4rem;
     cursor: pointer;
   }

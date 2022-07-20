@@ -1,24 +1,18 @@
 .navbar {
   position: sticky;
   top: 0;
-  background-color: var(--bg-color-dark);
+  background-color: var(--bg-color);
   z-index: 98;
 
   &__scrollable-box {
     padding: 0.8rem 1.2rem;
     overflow-x: auto;
     /* scrollable hint */
-    background: linear-gradient(
-          to right,
-          var(--bg-color-dark),
-          var(--bg-color-dark)
-        )
-        left,
-      linear-gradient(to right, var(--bg-color-dark), var(--bg-color-dark))
-        right,
-      radial-gradient(at left, rgba(255, 255, 255, 0.8), transparent 70%) left,
-      radial-gradient(at right, rgba(255, 255, 255, 0.8), transparent 70%) right;
-    background-size: 9px 100%, 9px 100%, 9px 110%, 9px 110%;
+    background: linear-gradient(to right, var(--bg-color), var(--bg-color)) left,
+      linear-gradient(to right, var(--bg-color), var(--bg-color)) right,
+      radial-gradient(at left, var(--scrollable-hint), transparent 70%) left,
+      radial-gradient(at right, var(--scrollable-hint), transparent 70%) right;
+    background-size: 1.2rem 100%, 1.2rem 100%, 1.2rem 110%, 1.2rem 110%;
     background-attachment: local, local, scroll, scroll;
     background-repeat: no-repeat;
   }
@@ -37,9 +31,9 @@
     align-items: center;
     padding: 0.45rem 0.8rem;
     width: var(--label-width);
-    color: var(--label-text-dark);
-    background-color: var(--label-bg-dark);
-    border: 2px solid var(--label-border-dark);
+    color: var(--label-text);
+    background-color: var(--label-bg);
+    border: 2px solid var(--label-border);
     border-radius: 2rem;
     font-size: 1.5rem;
     cursor: pointer;
@@ -52,8 +46,8 @@
 
   &__label--activated {
     font-weight: 700;
-    color: var(--label-text-dark_activated);
-    background-color: var(--label-bg-dark_activated);
+    color: var(--label-text_activated);
+    background-color: var(--label-bg_activated);
   }
 }
 

@@ -3,6 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 
+const meta = {
+  name: 'CJ News App',
+  description:
+    '「CJ News App」匯集了台灣各方媒體的新聞報導，提供您多元的時事報導。',
+};
+
 module.exports = {
   entry: {
     index: {
@@ -24,6 +30,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'),
       filename: 'index.html',
+      name: meta.name,
+      description: meta.description,
       title: '頭條新聞',
       favicon: path.resolve(__dirname, '../public/favicon.ico'),
       chunks: ['common', 'index'],
@@ -37,6 +45,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/collections.html'),
       filename: 'collections.html',
+      name: meta.name,
+      description: meta.description,
       title: '已收藏的新聞',
       favicon: path.resolve(__dirname, '../public/favicon.ico'),
       chunks: ['common', 'collections'],

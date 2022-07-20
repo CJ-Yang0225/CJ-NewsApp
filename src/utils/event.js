@@ -20,4 +20,44 @@ class EventStore {
   }
 }
 
+const debounce = (func, wait = 250, immediate = true) => {
+  let timeoutId = null;
+
+  return function () {
+    if (immediate && !timeoutId) func.apply(this, arguments);
+
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => {
+      timeoutId = null;
+      if (!immediate) func.apply(this, arguments);
+    }, wait);
+  };
+};
+
+const throttle = (func, wait = 250) => {
+  let prevNow = 0;
+  let timeoutId = null;
+
+  return function () {
+    const now = Date.now();
+    const remaining = wait - (now - prevNow);
+
+    clearTimeout(timeoutId);
+
+    if (now - prevNow >= wait) {
+      prevNow = now;
+      func.apply(this, arguments);
+    } else {
+      timeoutId = setTimeout(() => {
+        func.apply(this, arguments);
+        prevNow = now;
+        timeoutId = null;
+      }, remaining);
+    }
+  };
+};
+
+export { debounce, throttle };
+
 export default EventStore;

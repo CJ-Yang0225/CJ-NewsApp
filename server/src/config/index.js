@@ -20,7 +20,7 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error('News API Error:', error);
-    if (error.data?.code === 429) {
+    if (error.response.status === 429) {
       instance.defaults.headers['X-Api-Key'] = process.env.NEWS_API_KEY2;
     }
 

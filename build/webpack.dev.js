@@ -39,6 +39,7 @@ module.exports = merge(commonConfig, {
         changeOrigin: true, // 設為 true 時後端接收的 request headers 中的 host 為 target 位址
       },
     },
+    headers: { 'Access-Control-Allow-Origin': '*' },
     static: {
       directory: path.resolve(__dirname, '../public'),
     },

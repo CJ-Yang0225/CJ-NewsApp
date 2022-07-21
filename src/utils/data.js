@@ -36,7 +36,7 @@ const sliceNewsByCount = (news = [], count = 10) => {
 };
 
 const getURLSearchParamValue = (key) => {
-  const regExp = new RegExp(`^[?|&]${encodeURIComponent(key)}=([^&#?]*)`, 'i');
+  const regExp = new RegExp(`^[?&]${encodeURIComponent(key)}=([^&?]*)`, 'i');
   const result = location.search.match(regExp);
 
   return result ? decodeURIComponent(result[1]) : null;
@@ -48,7 +48,7 @@ const setURLSearchParam = (key, value) => {
 
   if (searchParams.includes(key)) {
     newSearchParams = searchParams.replace(
-      /([?|&])([^&#?]+)=([^&#?]*)/gi,
+      /([?&])([^&?]+)=([^&?]*)/gi,
       (matched, p1, p2, p3) => {
         if (p2 === key && p3 !== value) {
           return `${p1}${p2}=${value}`;

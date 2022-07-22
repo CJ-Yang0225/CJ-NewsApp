@@ -2,10 +2,10 @@
   <label class="toggle-theme widgets__item" aria-label="Toggle theme">
     <input class="toggle-theme__checkbox" type="checkbox" />
     <span class="material-icons-outlined toggle-theme__light-icon">
-      light_mode.
+      light_mode
     </span>
     <span class="material-icons-outlined toggle-theme__dark-icon">
-      mode_night
+      dark_mode
     </span>
   </label>
   <button class="back-to-top widgets__item" aria-label="Back to top">

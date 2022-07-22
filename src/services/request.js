@@ -28,6 +28,31 @@ class Request extends HTTP {
       });
     });
   }
+
+  getNews(category, pageSize = 10, pageNumber = 0) {
+    return new Promise((resolve, reject) => {
+      const url = formatParams(
+        `${HOST}/api/news`,
+        [
+          ['category', category],
+          ['pageSize', pageSize],
+          ['page', pageNumber],
+        ],
+        newsFormatter
+      );
+
+      this.get(url, {
+        onSuccess(result) {
+          const { totalResults, articles: news } = result;
+          const maxPage = Math.ceil(totalResults / pageSize);
+          resolve({ maxPage, news });
+        },
+        onError(error) {
+          reject(error);
+        },
+      });
+    });
+  }
 }
 
 function newsFormatter(param) {

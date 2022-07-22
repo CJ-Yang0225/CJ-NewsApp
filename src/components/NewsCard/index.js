@@ -56,8 +56,6 @@ class NewsCard {
 
       const bookmarks = JSON.parse(localStorage.getItem(BOOKMARKS_ITEM)) || [];
 
-      const NewsCard = this;
-
       const newsCard = new NewsCard({
         page,
         index,

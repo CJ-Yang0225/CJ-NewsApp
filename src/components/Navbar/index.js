@@ -11,12 +11,17 @@ import { NEWS_LABELS } from '../../constants/news';
 
 class Navbar {
   constructor({ activatedCategory }) {
-    const oApp = document.getElementById('app');
-    oApp.style.setProperty('--labels-length', NEWS_LABELS.length);
+    this.props = Object.defineProperty({}, 'activatedCategory', {
+      get: () => {
+        return activatedCategory;
+      },
+      set: (value) => {
+        activatedCategory = value;
+        this.updateUI();
+      },
+    });
 
-    this.state = {
-      activatedCategory,
-    };
+    oApp.style.setProperty('--labels-length', NEWS_LABELS.length);
 
     const labelsTpl = NEWS_LABELS.reduce((labelsTplFrag, label) => {
       const labelTpl = injectTpl(LabelTpl, {
@@ -36,41 +41,45 @@ class Navbar {
     this.el = content.firstElementChild;
   }
 
+  updateUI() {
+    const oNavbar = this.el;
+    const oLabels = oNavbar.querySelectorAll('.navbar__label');
+    oLabels.forEach((oLabel) =>
+      oLabel.classList.remove('navbar__label--activated')
+    );
+    const oActivatedLabel = Array.from(oLabels).find(
+      (oLabel) => oLabel.dataset.category === this.props.activatedCategory
+    );
+    oActivatedLabel.classList.add('navbar__label--activated');
+
+    const oScrollableBox = oNavbar.firstElementChild;
+    const distance =
+      oActivatedLabel.offsetLeft -
+      oActivatedLabel.offsetWidth -
+      parseFloat(getComputedStyle(oActivatedLabel).marginLeft);
+    oScrollableBox.scrollTo({ left: distance, behavior: 'smooth' });
+  }
+
   onSwitch(emitSwitch) {
     const oNavbar = this.el;
-
-    const updateUI = () => {
-      const oLabels = oNavbar.querySelectorAll('.navbar__label');
-      oLabels.forEach((oLabel) =>
-        oLabel.classList.remove('navbar__label--activated')
-      );
-      const oActivatedLabel = Array.from(oLabels).find(
-        (oLabel) => oLabel.dataset.category === this.state.activatedCategory
-      );
-      oActivatedLabel.classList.add('navbar__label--activated');
-    };
 
     const handleClick = (event) => {
       const target = event.target;
       const targetCategory = target.dataset.category;
 
       if (target.classList.contains('navbar__label')) {
-        if (targetCategory !== this.state.activatedCategory) {
-          this.state.activatedCategory = targetCategory;
-          setURLSearchParam('category', targetCategory);
-          updateUI();
+        if (targetCategory !== this.props.activatedCategory) {
           emitSwitch(targetCategory);
+          setURLSearchParam('category', targetCategory);
         }
 
-        scrollToTop();
+        scrollToTop(oApp);
       }
     };
 
     const handlePopstate = (event) => {
-      this.state.activatedCategory = event.state?.category || 'top';
-
-      updateUI();
-      emitSwitch(this.state.activatedCategory);
+      this.props.activatedCategory = event.state?.category || 'top';
+      emitSwitch(this.props.activatedCategory);
     };
 
     oNavbar.addEventListener('click', handleClick);

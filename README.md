@@ -4,7 +4,7 @@
 
 ## Client
 
-原生 Vanilla.js 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義，想解決什麼問題呢？。
+原生 Vanilla.js 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？。
 
 ### Features & Technologies
 
@@ -12,17 +12,21 @@
 
 - 使用自己簡單封裝的 [XMLHttpRequest 工具](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/http.js)，發送 AJAX GET 請求，獲取類別（`ex. ?category=sports`）對應的新聞，預設每頁為 10 筆報導。
 
-- 點擊新聞卡 `NewsCard` 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；反之用滑鼠中鍵或是 context menu 的「在新分頁中開啟連結」則可重複開啟。
-
 - 已獲取的資料會利用記憶體快取（memory cache）並附加一個判斷資料是否過期的 timestamp（類似 Cookie 的 `Max-Age`），再將這個加工過的資料儲存至 `localStorage`，設定 5 分鐘後過期，需要重新請求資料，以確保新聞的即時性。
 
-- 點擊上方導覽列 `Navbar`，更換新聞的類別，並即時更新 URL Search parameters（`?category=technology`），操控瀏覽器歷史紀錄（`history.pushState`）和監聽 `popstate` 事件。
+- 標題區塊／`Header` 根據不同頁面顯示相應的訊息和連結。
 
-- 當滾動至底部時觸發 `loadMore()` 載入更多新聞，如果還有資料就更新頁數並再加上 10 筆報導。
+- 點擊上方導覽列／`Navbar`，更換新聞的類別，並即時更新 URL Search parameters（`?category=technology`），操控瀏覽器歷史紀錄（`history.pushState`）和監聽 `popstate` 事件。
 
-- 可對想追蹤、收藏的新聞報導點擊書籤圖示，使用 localStorage 儲存已收藏的新聞資料陣列，實現跨頁攜帶資料，加到**書籤收藏頁（collection.html）**
+- 點擊新聞卡／`NewsCard` 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；反之用滑鼠中鍵或是 context menu 的「在新分頁中開啟連結」則可重複開啟。
 
-- 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme `）；另一點擊後回到頁面頂部。
+- 圖片首次載入完成時觸發 `load` 事件，啟動 fade-in 動畫；若瀏覽器有快取（cache）就用 `HTMLImageElement.complete` 屬性判斷載入完成的時機來啟動 fade-in 動畫。
+
+- 當滾動至底部時觸發 `loadMore()` 載入更多新聞，如果還有資料就提示 `PullHint`「載入更多新聞中」更新頁數並填充下 10 筆報導。
+
+- 可對想追蹤、收藏的新聞報導點擊書籤圖示，使用 `localStorage` 儲存已收藏的新聞資料陣列，實現跨頁攜帶資料，加到**書籤收藏頁（collection.html）**。
+
+- 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；另一點擊後回到頁面頂部。
 
 #### 書籤收藏頁（collections.html）
 
@@ -32,7 +36,7 @@
 
 - 可切換成管理模式進行整個 localStorage 新聞資料陣列的操作。
 
-- 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme `）；另一點擊後回到頁面頂部。
+- 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；其二點擊後回到頁面頂部。
 
 ### Module Bundler / Dependencies
 
@@ -98,7 +102,7 @@
 
 - 環境變數（Environment variables）
 
-  使用 `dotenv` 讀取 .env 和 .env.local 的環境變數
+  使用 `dotenv` 讀取 .env 和 .env.local 的環境變數。
 
   - .env： 新增檔案命名為 .env，裡面放上本地開發用伺服器的 HOSTNAME 和 PORT。
 
@@ -119,8 +123,8 @@
 
 - [Axios 使用](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/server/src/config/index.js)
 
-  - 創建 Axios 的實例（instance），設定預設的選項，方便重用。
-  - 使用實例的 Interceptors，管理 Request 和 Response 過程發生的事情，像是處理 429 Too many requests 狀況（每支 API Key 有限制請求次數），更換成另一支 API Key。
+  - 創建 `Axios` 的實例（instance），設定預設的選項，方便重複使用。
+  - 使用實例的 Interceptors，管理 Request 和 Response 過程發生的事情，例如處理 429 Too many requests 狀況（每支 API Key 有限制請求次數），更換成另一支 API Key。
 
 - [路由（routes）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/server/src/routes/news.js)
 

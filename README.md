@@ -28,6 +28,8 @@
 
 - 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；另一點擊後回到頁面頂部。
 
+- 手機、平板與電腦的 RWD（Responsive Web Design）。
+
 #### 書籤收藏頁（collections.html）
 
 - 取出 `localStorage` 的新聞資料陣列，展示出已收藏的全部新聞報導。

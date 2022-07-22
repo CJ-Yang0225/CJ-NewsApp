@@ -30,11 +30,11 @@
 
 #### 書籤收藏頁（collections.html）
 
-- 取出 localStorage 新聞資料陣列，展示出已收藏的全部新聞報導。
+- 取出 `localStorage` 的新聞資料陣列，展示出已收藏的全部新聞報導。
 
 - 點擊新聞卡 `NewsCard` 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；反之用滑鼠中鍵或是 context menu 的「在新分頁中開啟連結」則可重複開啟。
 
-- 可切換成管理模式進行整個 localStorage 新聞資料陣列的操作。
+- 可切換成管理模式進行整個 `localStorage` 新聞資料陣列的操作。
 
 - 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；其二點擊後回到頁面頂部。
 

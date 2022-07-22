@@ -5,6 +5,7 @@ import NewsContainer from '../components/NewsContainer';
 import NewsCard from '../components/NewsCard';
 import Icon from '../components/Icon';
 import PullHint from '../components/PullHint';
+import Widgets from '../components/Widgets';
 import request from '../services/request';
 import {
   delay,
@@ -14,11 +15,15 @@ import {
   getUnexpiredData,
   detectScrolledToBottom,
   getURLSearchParamValue,
+  scrollByLength,
 } from '../utils';
-import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
+import {
+  REDIRECT_TO_DETAIL,
+  SWITCH_CATEGORY,
+  TOGGLE_BOOKMARK,
+} from '../constants/actionTypes';
 import { BOOKMARKS_ITEM, NEWS_LABELS, TEMP_NEWS_ITEM } from '../constants/news';
 import { throttle } from '../utils/event';
-import Widgets from '../components/Widgets';
 
 (function (doc) {
   const state = {
@@ -29,13 +34,13 @@ import Widgets from '../components/Widgets';
     cachedNews: {},
     page: 0,
     maxPage: 0,
-    isLoading: true,
+    isLoadMoreReady: true,
   };
 
-  /* app root */
-  const oApp = doc.getElementById('app');
+  /* app node */
+  window.oApp = doc.getElementById('app');
 
-  /* components */
+  /* component instances */
   const header = new Header({
     title: '頭條新聞',
     showBackIcon: false,
@@ -59,8 +64,8 @@ import Widgets from '../components/Widgets';
 
   function useEvent() {
     navbar.onSwitch(switchCategory);
-    newsContainer.onClick(dispatchAction);
-    window.addEventListener('scroll', throttle(loadMoreNews, 100), {
+    newsContainer.onAct(dispatchAction);
+    oApp.addEventListener('scroll', throttle(loadMoreNews, 250), {
       passive: true,
     });
   }
@@ -68,8 +73,10 @@ import Widgets from '../components/Widgets';
   function switchCategory(category) {
     const oNewsContainer = newsContainer.el;
 
-    state.category = category;
     state.page = 0;
+    state.category = category;
+    navbar.props.activatedCategory = category;
+    navbar.updateUI();
     oNewsContainer.dataset.category = category;
     oNewsContainer.innerHTML = '';
 
@@ -116,36 +123,34 @@ import Widgets from '../components/Widgets';
 
     const newsCardList = NewsCard.createList(slicedNewsByPage, page);
     oNewsContainer.appendChild(newsCardList);
-    state.isLoading = false;
 
     NewsCard.triggerImagesFadeIn(page);
   }
 
   async function loadMoreNews() {
-    const oNewsContainer = newsContainer.el;
-    const currentCategory = oNewsContainer.dataset.category;
-
-    if (!state.isLoading && detectScrolledToBottom()) {
-      state.isLoading = true;
+    if (state.isLoadMoreReady && detectScrolledToBottom(oApp, 8)) {
+      const oNewsContainer = newsContainer.el;
+      const currentCategory = oNewsContainer.dataset.category;
+      state.isLoadMoreReady = false;
       state.page++;
 
       if (state.page < state.maxPage) {
-        const pullHint = new PullHint({ status: 'loading' });
-        oNewsContainer.appendChild(pullHint.el);
+        const pullHintLoading = new PullHint({ status: 'loading' });
+        oNewsContainer.appendChild(pullHintLoading.el);
 
-        const pullHintHeight = pullHint.el.offsetHeight;
-        window.scrollBy({
-          top: pullHintHeight,
-          behavior: 'smooth',
-        });
+        const pullHintHeight = pullHintLoading.el.offsetHeight;
+        scrollByLength(window.oApp, 'top', pullHintHeight);
 
         await delay(800); // to show pull hint
         await populateNews(currentCategory);
-        pullHint.el.remove();
+        pullHintLoading.el.remove();
+        state.isLoadMoreReady = true;
       } else {
-        const pullHint = new PullHint({ status: 'no-data' });
+        const pullHintNoData = new PullHint({ status: 'no-data' });
+        oNewsContainer.appendChild(pullHintNoData.el);
 
-        oNewsContainer.appendChild(pullHint.el);
+        const pullHintHeight = pullHintNoData.el.offsetHeight;
+        scrollByLength(window.oApp, 'top', pullHintHeight);
       }
     }
   }
@@ -160,6 +165,10 @@ import Widgets from '../components/Widgets';
 
       case TOGGLE_BOOKMARK:
         toggleBookmark(payload);
+        break;
+
+      case SWITCH_CATEGORY:
+        switchCategory(payload);
         break;
     }
   }

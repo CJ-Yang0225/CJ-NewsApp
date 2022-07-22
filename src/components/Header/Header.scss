@@ -31,6 +31,10 @@
     font-size: 2.4rem;
   }
 
+  &__collections {
+    color: var(--header-collections-icon);
+  }
+
   #management {
     padding: 0.4rem 1.6rem;
     border-radius: 2.4rem;

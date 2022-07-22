@@ -6,7 +6,10 @@
   font-weight: 700;
   color: var(--pull-hint-text);
   background-color: var(--pull-hint-bg);
-  box-shadow: 0 -1px 3px #ffffff1f, 0 -1px 2px #ffffff3d;
+  box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.122),
+    0 -1px 2px var(--pull-hint-box-shader-01);
+  box-shadow: 0 -1px 3px rgba(255, 255, 255, 0.122),
+    0 -1px 2px var(--pull-hint-box-shader-02);
 
   &--loading {
     display: flex;

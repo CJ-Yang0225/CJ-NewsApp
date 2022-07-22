@@ -17,7 +17,7 @@
   font-style: normal;
   font-size: 2.4rem; /* Preferred icon size */
   display: inline-block;
-  line-height: normal; /* Fix Firefox browser vertically center */
+  line-height: 1; /* Fix Firefox browser vertically center */
   text-transform: none;
   letter-spacing: normal;
   word-wrap: normal;
@@ -55,6 +55,22 @@ html {
   }
 }
 
+body {
+  // max-height: -webkit-fill-available; // about the address bar of mobile browser
+  height: 100vh;
+  overflow-y: hidden;
+
+  font-family: 'Helvetica Neue', Helvetica, 'Roboto', Tahoma, Arial,
+    'Microsoft JhengHei UI', sans-serif;
+  background-color: var(--bg-color);
+}
+
+#app {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 @mixin dark-mode {
   --bg-color: #1a1b22;
   --text-color-base: #ffffff;
@@ -63,6 +79,7 @@ html {
   --header-title: var(--text-color-base, #ffffff);
   --header-logo: #e62117;
   --header-back-icon: #ff6861;
+  --header-collections-icon: #ffdd60;
   --header-btn-border: #ff6861;
   --header-box-shadow-01: #ffffff1f;
   --header-box-shadow-02: #ffffff3d;
@@ -90,6 +107,8 @@ html {
   /* PullHint */
   --pull-hint-bg: var(--bg-color);
   --pull-hint-text: var(--text-color-base, #ffffff);
+  --pull-hint-box-shader-01: rgba(255, 255, 255, 0.125);
+  --pull-hint-box-shader-02: rgba(255, 255, 255, 0.25);
 
   /* Bookmark */
   --bookmark-icon: #ff7b75;
@@ -110,6 +129,7 @@ html {
   --header-title: var(--text-color-base, #000000);
   --header-logo: #e62117;
   --header-back-icon: #c73f39;
+  --header-collections-icon: #099300;
   --header-btn-border: #c73f39;
   --header-box-shadow-01: #1111111f;
   --header-box-shadow-02: #1111113d;
@@ -130,13 +150,15 @@ html {
   --news-card-text: var(--text-color-base, #000000);
   --news-card-icon: #fd6a62;
   --news-card-thumbnail-bg: #a7a8ac;
-  --news-card-source-icon: #178eb2;
-  --news-card-author-icon: #a08029;
+  --news-card-source-icon: #0052b7;
+  --news-card-author-icon: #935100;
   --news-card-border: #c8c8c8;
 
   /* PullHint */
   --pull-hint-bg: var(--bg-color);
   --pull-hint-text: var(--text-color-base, #000000);
+  --pull-hint-box-shader-01: rgba(0, 0, 0, 0.125);
+  --pull-hint-box-shader-02: rgba(0, 0, 0, 0.25);
 
   /* Bookmark */
   --bookmark-icon: #ff7b75;
@@ -169,12 +191,6 @@ html {
   :root {
     @include light-mode();
   }
-}
-
-body {
-  font-family: 'Helvetica Neue', Helvetica, 'Roboto', Tahoma, Arial,
-    'Microsoft JhengHei UI', sans-serif;
-  background-color: var(--bg-color);
 }
 
 a {

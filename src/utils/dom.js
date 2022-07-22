@@ -12,10 +12,17 @@ const createFragment = (htmlString) => {
   return templateElement.content;
 };
 
-const scrollToTop = () => {
+const scrollToTop = (targetEl = window.oApp, delay = 250) => {
   setTimeout(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 250);
+    targetEl.scrollTo({ top: 0, behavior: 'smooth' });
+  }, delay);
+};
+
+const scrollByLength = (targetEl = window.oApp, direction = 'top', length) => {
+  targetEl.scrollBy({
+    [direction]: length,
+    behavior: 'smooth',
+  });
 };
 
 const delay = (ms) => ({
@@ -24,14 +31,13 @@ const delay = (ms) => ({
   },
 });
 
-const detectScrolledToBottom = () => {
-  const hasScrollbar = getDocumentSize().height > getViewportSize().height;
-  const isScrolledToBottom =
-    hasScrollbar &&
-    getScrolledLength().top + getViewportSize().height ===
-      getDocumentSize().height;
+const detectScrolledToBottom = (targetEl = window.oApp, threshold = 50) => {
+  const viewedHeight = targetEl.scrollTop + targetEl.offsetHeight;
+  const totalHeight = targetEl.scrollHeight;
+  const hasScrollbar = totalHeight > targetEl.offsetHeight;
+  const isScrolledToBottom = totalHeight - viewedHeight <= threshold;
 
-  return isScrolledToBottom;
+  return hasScrollbar && isScrolledToBottom;
 };
 
 function getScrolledLength(element) {
@@ -100,6 +106,7 @@ function getDocumentSize() {
 export {
   createFragment,
   scrollToTop,
+  scrollByLength,
   delay,
   getScrolledLength,
   getViewportSize,

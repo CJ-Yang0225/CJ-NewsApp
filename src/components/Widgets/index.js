@@ -25,7 +25,7 @@ class Widgets {
     ).matches;
 
     oToggleThemeCheckbox.addEventListener('change', toggleTheme);
-    oBackToTop.addEventListener('click', scrollToTop);
+    oBackToTop.addEventListener('click', () => scrollToTop(window.oApp, 100));
   }
 }
 

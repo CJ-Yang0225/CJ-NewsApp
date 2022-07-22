@@ -5,6 +5,7 @@
   justify-content: flex-start;
   align-items: stretch;
   background-color: var(--bg-color);
+  transition: transform 100ms linear;
 }
 
 @media screen and (min-width: 1280px) {

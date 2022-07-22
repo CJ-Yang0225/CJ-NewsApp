@@ -1,16 +1,16 @@
 .widgets {
   position: fixed;
   left: 0;
-  bottom: 1.6rem;
+  bottom: 3.2rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding-left: 0.8rem;
+  padding: 0 1.2rem;
   background-color: rgba(135, 135, 135, 0.5);
-  border-top-right-radius: 0.8rem;
-  border-bottom-right-radius: 0.8rem;
-  transition: transform 0.35s;
+  border-top-right-radius: 1.6rem;
+  border-bottom-right-radius: 1.6rem;
+  transition: transform 300ms 300ms;
   transform: translateX(-50%);
   z-index: 99;
 
@@ -18,8 +18,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 3.2rem;
-    height: 3.2rem;
+    width: 4rem;
+    height: 4rem;
     color: var(--widgets-item-icon);
     background-color: var(--widgets-item-bg);
     padding: 0;
@@ -27,7 +27,7 @@
     outline: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: opacity 0.3s;
+    transition: opacity 300ms;
     opacity: 0;
 
     & + & {
@@ -42,7 +42,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: 0.4rem;
+    padding-right: 1rem;
     font-size: 2.5rem;
     color: #ffffff;
     opacity: 1;
@@ -52,6 +52,7 @@
 
 .widgets:hover {
   background-color: transparent;
+  transition: transform 300ms;
   transform: translateX(0);
 
   &::after {
@@ -71,12 +72,14 @@
 }
 
 .toggle-theme {
-  padding-left: 0.1rem;
+  &__checkbox {
+    display: none;
+  }
 
-  &__checkbox,
   &__dark-icon,
   &__light-icon {
     display: none;
+    font-size: 3rem;
   }
 
   &__checkbox:not(:checked) ~ &__dark-icon {
@@ -90,7 +93,7 @@
 
 .back-to-top {
   svg {
-    width: 55%;
+    width: 60%;
   }
 }
 

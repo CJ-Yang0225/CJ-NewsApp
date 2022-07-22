@@ -5,6 +5,7 @@
   z-index: 98;
 
   &__scrollable-box {
+    position: relative; // set it to offsetParent of the labels
     padding: 0.8rem 1.2rem;
     overflow-x: auto;
     /* scrollable hint */

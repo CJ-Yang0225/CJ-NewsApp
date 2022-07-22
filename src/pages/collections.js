@@ -1,10 +1,11 @@
 import '../styles/collections.scss';
 import Header from '../components/Header';
-import { getDataFromLocalStorage, setDataToLocalStorage } from '../utils';
+import NewsContainer from '../components/NewsContainer';
 import NewsCard from '../components/NewsCard';
+import Widgets from '../components/Widgets';
+import { getDataFromLocalStorage, setDataToLocalStorage } from '../utils';
 import { BOOKMARKS_ITEM } from '../constants/news';
 import { REDIRECT_TO_DETAIL, TOGGLE_BOOKMARK } from '../constants/actionTypes';
-import NewsContainer from '../components/NewsContainer';
 
 (function (doc, getBookmarks) {
   const state = {
@@ -13,9 +14,10 @@ import NewsContainer from '../components/NewsContainer';
     bookmarksForEditing: [],
   };
 
-  const oApp = doc.getElementById('app');
+  /* root node */
+  window.oApp = doc.getElementById('app');
 
-  /* components */
+  /* component instances */
   const header = new Header({
     title: '已收藏的新聞',
     backUrl: '/',
@@ -24,6 +26,7 @@ import NewsContainer from '../components/NewsContainer';
     tpl: '<button id="management">管理</button>',
   });
   const newsContainer = new NewsContainer({ category: 'all' });
+  const widgets = new Widgets();
 
   const init = () => {
     render();
@@ -34,12 +37,12 @@ import NewsContainer from '../components/NewsContainer';
   init();
 
   function render() {
-    oApp.append(header.el, newsContainer.el);
+    oApp.append(header.el, newsContainer.el, widgets.el);
   }
 
   function useEvent() {
     oApp.querySelector('#management').addEventListener('click', switchEditMode);
-    newsContainer.onClick(dispatchAction);
+    newsContainer.onAct(dispatchAction);
   }
 
   function switchEditMode(event) {

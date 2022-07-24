@@ -5,7 +5,7 @@ import apiConfig from '../services/config';
 const HOST = apiConfig.PROXY_SERVER_HOST;
 
 class Request extends HTTP {
-  getSlicedNews(category, totalNews = 30) {
+  getSlicedNews(category, totalNews = 30, pageSize = 10) {
     return new Promise((resolve, reject) => {
       const url = formatParams(
         `${HOST}/api/news`,
@@ -19,7 +19,7 @@ class Request extends HTTP {
       this.get(url, {
         onSuccess(result) {
           const news = result.articles;
-          const slicedNews = sliceNewsByCount(news, 10);
+          const slicedNews = sliceNewsByCount(news, pageSize);
           resolve(slicedNews);
         },
         onError(error) {

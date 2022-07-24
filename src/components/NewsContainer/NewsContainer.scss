@@ -6,6 +6,38 @@
   align-items: stretch;
   background-color: var(--bg-color);
   transition: transform 100ms linear;
+
+  &__swipe-hint {
+    content: '';
+    position: fixed;
+    top: 5.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% / 5);
+    height: calc(100% - 5.2rem);
+    color: var(--text-color-base);
+    font-size: 3.6rem;
+    z-index: 10;
+    transition: transform 100ms linear;
+  }
+
+  &__swipe-hint--left {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-color), transparent) left;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-left: calc(100% / -5);
+  }
+
+  &__swipe-hint--right {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-color), transparent) right;
+    background-size: 100% 100%;
+    background-attachment: local;
+    background-repeat: no-repeat;
+    margin-right: calc(100% / -5);
+  }
 }
 
 @media screen and (min-width: 1280px) {

@@ -25,7 +25,7 @@ class NewsContainer {
     this.el = content.firstElementChild;
   }
 
-  onAct(emitAction) {
+  onAct(emitAction, { enableSwipe = false } = {}) {
     const oNewsContainer = this.el;
 
     const handleClick = (event) => {
@@ -53,83 +53,117 @@ class NewsContainer {
       }
     };
 
-    let containerWidth = this.el.offsetWidth;
-    let isMoving = false;
-    let startX = 0;
-    let startY = 0;
-    let deltaX = 0;
-    let activatedIndex = 0;
-    const categories = NEWS_LABELS.map((label) => label.category);
-
-    const handleTouchStart = (event) => {
-      startX = event.touches[0].clientX;
-      startY = event.touches[0].clientY;
-      activatedIndex = NEWS_LABELS.findIndex(
-        ({ category }) =>
-          category === (getURLSearchParamValue('category') || 'top')
-      );
-    };
-
-    const handleTouchMove = (event) => {
-      const currentX = event.touches[0].clientX;
-      const currentY = event.touches[0].clientY;
-      const distanceX = Math.abs(startX - currentX);
-      const distanceY = Math.abs(startY - currentY);
-
-      if (distanceX > distanceY) event.preventDefault();
-
-      if (
-        (currentX > startX && activatedIndex === 0) ||
-        (currentX < startX && activatedIndex === categories.length - 1) ||
-        distanceY > 20
-      ) {
-        return;
-      }
-
-      isMoving = true;
-      deltaX = startX - currentX;
-
-      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-      oNewsContainer.style.transform = `translateX(${clamp(
-        -deltaX,
-        -containerWidth / 5,
-        containerWidth / 5
-      )}px)`;
-    };
-
-    const handleTouchEnd = () => {
-      if (!isMoving) return;
-
-      if (Math.abs(deltaX) >= containerWidth / 4.5) {
-        if (deltaX > 0) {
-          activatedIndex++;
-        } else if (deltaX < 0) {
-          activatedIndex--;
-        }
-
-        emitAction({
-          type: SWITCH_CATEGORY,
-          payload: categories[activatedIndex],
-        });
-
-        if (oNewsContainer.dataset.category === categories[activatedIndex]) {
-          setURLSearchParam('category', oNewsContainer.dataset.category);
-        }
-        scrollToTop(oApp);
-      }
-
-      isMoving = false;
-      startX = 0;
-      deltaX = 0;
-
-      oNewsContainer.style.transform = '';
-    };
-
     oNewsContainer.addEventListener('click', handleClick);
-    oNewsContainer.addEventListener('touchstart', handleTouchStart);
-    oNewsContainer.addEventListener('touchmove', handleTouchMove);
-    oNewsContainer.addEventListener('touchend', handleTouchEnd);
+
+    if (enableSwipe) {
+      let containerWidth = this.el.offsetWidth;
+      let isMoving = false;
+      let startX = 0;
+      let startY = 0;
+      let deltaX = 0;
+      let activatedIndex = 0;
+      const categories = NEWS_LABELS.map((label) => label.category);
+
+      const handleTouchStart = (event) => {
+        oNewsContainer.insertAdjacentHTML(
+          'beforeend',
+          /* html */ `
+          <span
+            class="material-icons-outlined news-container__swipe-hint news-container__swipe-hint--left"
+          >
+            swipe_right
+          </span>
+          <span
+            class="material-icons-outlined news-container__swipe-hint news-container__swipe-hint--right"
+          >
+            swipe_left
+          </span>
+          `
+        );
+
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+        activatedIndex = NEWS_LABELS.findIndex(
+          ({ category }) =>
+            category === (getURLSearchParamValue('category') || 'top')
+        );
+      };
+
+      const handleTouchMove = (event) => {
+        const currentX = event.touches[0].clientX;
+        const currentY = event.touches[0].clientY;
+        const distanceY = Math.abs(startY - currentY);
+
+        if (
+          (currentX > startX && activatedIndex === 0) ||
+          (currentX < startX && activatedIndex === categories.length - 1) ||
+          distanceY > 24
+        ) {
+          return;
+        }
+
+        isMoving = true;
+        deltaX = startX - currentX;
+
+        const [oHintLeft, oHintRight] = oNewsContainer.querySelectorAll(
+          '.news-container__swipe-hint'
+        );
+
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+        oHintLeft.style.transform = `translateX(${clamp(
+          -deltaX,
+          -containerWidth / 5,
+          containerWidth / 5
+        )}px)`;
+        oHintRight.style.transform = `translateX(${clamp(
+          -deltaX,
+          -containerWidth / 5,
+          containerWidth / 5
+        )}px)`;
+      };
+
+      const handleTouchEnd = () => {
+        const [oHintLeft, oHintRight] = oNewsContainer.querySelectorAll(
+          '.news-container__swipe-hint'
+        );
+
+        oHintLeft?.remove();
+        oHintRight?.remove();
+
+        if (!isMoving) return;
+
+        if (Math.abs(deltaX) >= containerWidth / 5) {
+          if (deltaX > 0) {
+            activatedIndex++;
+          } else if (deltaX < 0) {
+            activatedIndex--;
+          }
+
+          emitAction({
+            type: SWITCH_CATEGORY,
+            payload: categories[activatedIndex],
+          });
+
+          if (oNewsContainer.dataset.category === categories[activatedIndex]) {
+            setURLSearchParam('category', oNewsContainer.dataset.category);
+          }
+          scrollToTop(oApp);
+        }
+
+        isMoving = false;
+        startX = 0;
+        deltaX = 0;
+      };
+
+      oNewsContainer.addEventListener('touchstart', handleTouchStart, {
+        passive: true,
+      });
+      oNewsContainer.addEventListener('touchmove', handleTouchMove, {
+        passive: true,
+      });
+      oNewsContainer.addEventListener('touchend', handleTouchEnd);
+    }
   }
 }
 

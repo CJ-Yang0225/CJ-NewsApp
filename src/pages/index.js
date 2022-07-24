@@ -64,8 +64,8 @@ import { throttle } from '../utils/event';
 
   function useEvent() {
     navbar.onSwitch(switchCategory);
-    newsContainer.onAct(dispatchAction);
-    oApp.addEventListener('scroll', throttle(loadMoreNews, 250), {
+    newsContainer.onAct(dispatchAction, { enableSwipe: true });
+    oApp.addEventListener('scroll', throttle(loadMoreNews, 150), {
       passive: true,
     });
   }
@@ -94,7 +94,10 @@ import { throttle } from '../utils/event';
       const loadingIcon = new Icon({ status: 'loading' });
       oNewsContainer.appendChild(loadingIcon.el);
 
-      const slicedNews = await request.getSlicedNews(category, 70);
+      const pageSize = window.matchMedia('(min-width: 1600px)').matches
+        ? 12
+        : 10;
+      const slicedNews = await request.getSlicedNews(category, 70, pageSize);
       cachedNews[category] = slicedNews;
 
       const slicedNewsWithExpiration = attachExpiration(slicedNews, 5 * 60);
@@ -128,7 +131,7 @@ import { throttle } from '../utils/event';
   }
 
   async function loadMoreNews() {
-    if (state.isLoadMoreReady && detectScrolledToBottom(oApp, 8)) {
+    if (state.isLoadMoreReady && detectScrolledToBottom(oApp, 16)) {
       const oNewsContainer = newsContainer.el;
       const currentCategory = oNewsContainer.dataset.category;
       state.isLoadMoreReady = false;

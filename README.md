@@ -10,19 +10,21 @@
 
 #### 首頁（index.html）
 
-- 使用自己簡單封裝的 [XMLHttpRequest 工具](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/http.js)，發送 AJAX GET 請求，獲取類別（`ex. ?category=sports`）對應的新聞，預設每頁為 10 筆報導。
+- 使用自己簡單封裝的 [XMLHttpRequest 工具](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/http.js)，發送 AJAX GET 請求，獲取類別（top, entertainment, sports, business, health, technology, science）對應的新聞，預設每頁為 10 筆報導（會根據裝置尺寸調整）。
 
 - 已獲取的資料會利用記憶體快取（memory cache）並附加一個判斷資料是否過期的 timestamp（類似 Cookie 的 `Max-Age`），再將這個加工過的資料儲存至 `localStorage`，設定 5 分鐘後過期，需要重新請求資料，以確保新聞的即時性。
 
-- 標題區塊／`Header` 根據不同頁面顯示相應的訊息和連結。
+- 標題區塊 `Header` 根據不同頁面顯示相應的訊息和連結。
 
-- 點擊上方導覽列／`Navbar`，更換新聞的類別，並即時更新 URL Search parameters（`?category=technology`），操控瀏覽器歷史紀錄（`history.pushState`）和監聽 `popstate` 事件。
+- 點擊上方導覽列 `Navbar`，更換新聞的類別，並即時更新 URL Search parameters（`?category=technology`），操控瀏覽器歷史紀錄（`history.pushState`）和監聽 `popstate` 事件。
 
-- 點擊新聞卡／`NewsCard` 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；反之用滑鼠中鍵或是 context menu 的「在新分頁中開啟連結」則可重複開啟。
+- 點擊新聞卡 `NewsCard` 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；反之用滑鼠中鍵或是 context menu 的「在新分頁中開啟連結」則可重複開啟。
 
-- 圖片首次載入完成時觸發 `load` 事件，啟動 fade-in 動畫；若瀏覽器有快取（cache）就用 `HTMLImageElement.complete` 屬性判斷載入完成的時機來啟動 fade-in 動畫。
+- 啟用圖片 lazy loading 以及增設圖片 `load` 事件，首次載入完成時觸發 fade-in 動畫；若瀏覽器有快取（cache）就用 `HTMLImageElement.complete` 屬性判斷載入完成的時機來觸發 fade-in 動畫。
 
-- 當滾動至底部時觸發 `loadMore()` 載入更多新聞，如果還有資料就提示 `PullHint`「載入更多新聞中」更新頁數並填充下 10 筆報導。
+- 行動裝置（Mobile device）裝置可透過左、右的滑動手勢來切換新聞類別。
+
+- 當滾動至底部時觸發 `loadMore()` 載入更多新聞，如果還有資料就加入提示 `PullHint`「載入更多新聞中」，更新頁數並填充下 10 筆報導。
 
 - 可對想追蹤、收藏的新聞報導點擊書籤圖示，使用 `localStorage` 儲存已收藏的新聞資料陣列，實現跨頁攜帶資料，加到**書籤收藏頁（collection.html）**。
 
@@ -39,6 +41,8 @@
 - 可切換成管理模式進行整個 `localStorage` 新聞資料陣列的操作。
 
 - 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；其二點擊後回到頁面頂部。
+
+- 手機、平板與電腦的 RWD（Responsive Web Design）。
 
 ### Module Bundler / Dependencies
 

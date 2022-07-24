@@ -6,6 +6,7 @@
         src="{{ urlToImage }}"
         alt=""
         loading="lazy"
+        onerror="this.style.display = 'none'; this.style.objectFit = 'contain';"
       />
     </figure>
     <div class="news-card__content">

@@ -3,6 +3,7 @@ import NewsCardTpl from './NewsCard.tpl';
 import Bookmark from '../Bookmark';
 import { createFragment, injectTpl } from '../../utils';
 import { BOOKMARKS_ITEM } from '../../constants/news';
+import noImageAvailable from '../../assets/images/no_image_available.png';
 
 class NewsCard {
   constructor({
@@ -80,6 +81,11 @@ class NewsCard {
       `.news-card[data-page="${page}"] .news-card__thumbnail`
     );
     oImages.forEach((oImage) => {
+      if (!oImage.getAttribute('src')) {
+        oImage.src = noImageAvailable;
+        oImage.style.objectFit = 'contain';
+      }
+
       // image is cached by browser
       if (oImage.complete) {
         oImage.style.animationPlayState = 'running';

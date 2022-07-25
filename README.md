@@ -4,7 +4,7 @@
 
 ## Client
 
-原生 Vanilla.js 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？。
+原生 Vanilla.js 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？
 
 ### Features & Technologies
 
@@ -84,8 +84,14 @@
 
         進一步減少 bundle size。處理語法兼容經常會加上 helper function，此 plugin 可以在使用相同 helper function 時，預設以 import 的方式。
 
-    - raw-loader（內建）
-    - file-loader（內建）
+    - [raw-loader（內建）](https://webpack.js.org/guides/asset-modules/)
+
+      載入自訂的 .tpl 檔案之原始內容（utf-8）
+
+    - [file-loader（內建）](https://webpack.js.org/guides/asset-modules/)
+
+      將特定檔案拷貝到目標資料夾，並返回對應的 URL
+
     - [sass-loader](https://www.npmjs.com/package/sass-loader)
     - [postcss-loader](https://www.npmjs.com/package/postcss-loader)
     - [css-loader](https://www.npmjs.com/package/css-loader)

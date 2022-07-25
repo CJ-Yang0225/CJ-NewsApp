@@ -30,7 +30,7 @@ module.exports = merge(commonConfig, {
           MiniCssExtractPlugin.loader, // Extracts CSS into separate files
           'css-loader', // Translates CSS into CommonJS
           {
-            loader: 'postcss-loader', // Parses CSS and Adds vendor prefixes to CSS rules using autoprefixer
+            loader: 'postcss-loader', // Parses CSS and adds vendor prefixes to CSS rules using autoprefixer
             options: {
               postcssOptions: {
                 plugins: ['autoprefixer'],

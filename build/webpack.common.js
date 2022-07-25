@@ -32,7 +32,7 @@ module.exports = {
       filename: 'index.html',
       name: meta.name,
       description: meta.description,
-      title: 'CJ News App－頭條新聞',
+      title: 'CJ News | 頭條新聞',
       favicon: path.resolve(__dirname, '../public/favicon.ico'),
       chunks: ['common', 'index'],
       chunksSortMode: 'manual',
@@ -47,7 +47,7 @@ module.exports = {
       filename: 'collections.html',
       name: meta.name,
       description: meta.description,
-      title: 'CJ News App－已收藏的新聞',
+      title: 'CJ News | 已收藏的新聞',
       favicon: path.resolve(__dirname, '../public/favicon.ico'),
       chunks: ['common', 'collections'],
       chunksSortMode: 'manual',
@@ -64,7 +64,7 @@ module.exports = {
         test: /\.(jpe?g|png|svg|gif)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/images/[name].[hash:7][ext]',
+          filename: 'static/images/[name].[hash:8][ext]',
         },
       },
       {

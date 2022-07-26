@@ -75,6 +75,7 @@ import { throttle } from '../utils/event';
 
     state.page = 0;
     state.category = category;
+    state.isLoadMoreReady = true;
     navbar.props.activatedCategory = category;
     navbar.updateUI();
     oNewsContainer.dataset.category = category;
@@ -99,6 +100,7 @@ import { throttle } from '../utils/event';
         : 10;
       const slicedNews = await request.getSlicedNews(category, 70, pageSize);
       cachedNews[category] = slicedNews;
+      state.maxPage = slicedNews.length;
 
       const slicedNewsWithExpiration = attachExpiration(slicedNews, 5 * 60);
       setDataToLocalStorage(TEMP_NEWS_ITEM, {
@@ -109,6 +111,8 @@ import { throttle } from '../utils/event';
 
       return cachedNews[category][0] || [];
     }
+
+    state.maxPage = cachedNews[category].length;
 
     return cachedNews[category][page] || [];
   }
@@ -122,8 +126,6 @@ import { throttle } from '../utils/event';
     }
 
     const slicedNewsByPage = await getNewsByPage(page);
-    state.maxPage = slicedNewsByPage.length;
-
     const newsCardList = NewsCard.createList(slicedNewsByPage, page);
     oNewsContainer.appendChild(newsCardList);
 

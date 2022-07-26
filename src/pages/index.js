@@ -60,6 +60,7 @@ import { throttle } from '../utils/event';
 
   function render() {
     oApp.append(header.el, navbar.el, newsContainer.el, widgets.el);
+    navbar.updateUI();
   }
 
   function useEvent() {

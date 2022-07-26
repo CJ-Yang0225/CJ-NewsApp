@@ -27,10 +27,10 @@ import { throttle } from '../utils/event';
 
 (function (doc) {
   const state = {
-    category: NEWS_LABELS.find(
-      ({ category }) =>
-        category === (getURLSearchParamValue('category') || 'top')
-    )['category'],
+    category:
+      NEWS_LABELS.find(
+        ({ category }) => category === getURLSearchParamValue('category')
+      )?.['category'] || 'top',
     cachedNews: {},
     page: 0,
     maxPage: 0,

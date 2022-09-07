@@ -12,7 +12,7 @@
 
 - 使用自己簡單封裝的 [XMLHttpRequest 工具](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/http.js)，發送 AJAX GET 請求，獲取類別（top, entertainment, sports, business, health, technology, science）對應的新聞，預設每頁為 10 筆報導（會根據裝置尺寸調整）。
 
-- 已獲取的資料會利用記憶體快取（memory cache）並附加一個能判斷資料是否過期的 timestamp（類似 Cookie 的 `Max-Age`），再將這個加工過的資料儲存至 `localStorage`，設定 5 分鐘後過期，需要重新請求資料，以確保新聞的即時性。[（程式碼 L67～L127）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L67-L127)
+- 已獲取的資料會利用記憶體快取（memory cache）並附加一個能判斷資料是否過期的 timestamp（類似 Cookie 的 `Max-Age`），再將這個加工過的資料儲存至 `localStorage`，設定 5 分鐘後過期，需要重新請求資料，以確保新聞的即時性。（[程式碼 L67～L127](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L67-L127)）
 
 - 標題區塊 [`Header`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/Header/index.js) 根據不同頁面顯示相應的訊息和連結。
 
@@ -22,7 +22,7 @@
 
 - 啟用圖片 lazy loading 以及增設圖片 `load` 事件，首次載入完成時觸發 fade-in 動畫；若瀏覽器有啟用快取（cache）機制則用 `HTMLImageElement.complete` 屬性判斷載入完成的時機來觸發 fade-in 動畫。
 
-- 行動裝置（Mobile device）裝置可透過左滑、右滑的手勢切換新聞類別[（程式碼）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/NewsContainer/index.js)。
+- 行動裝置（Mobile device）裝置可透過左滑、右滑的手勢切換新聞類別。（[程式碼](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/NewsContainer/index.js)）
 
 - 當滾動至底部時觸發 [`loadMoreNews()`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/pages/index.js#L136-L162) 載入更多新聞，如果還有資料就加入提示 [`PullHint`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/PullHint/index.js)「載入更多新聞中」，更新頁數並填充下 10 筆報導。
 
@@ -46,13 +46,13 @@
 
 #### 實用的工具函式們（utils）
 
-- 使用 RegExp 注入資料到類 html 格式的自訂 .tpl 檔案[（`injectTpl()`）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L7-L11)
+- 使用 RegExp 注入資料到類 html 格式的自訂 .tpl 檔案。（[`injectTpl()`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L7-L11)）
 
-- 幫助整理 object 的結構、URL 的參數、form data 的格式等等[（程式碼 L13～L65）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L13-L65)，
+- 幫助整理 object 的結構、URL 的參數、form data 的格式等等。（[程式碼 L13～L65](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L13-L65)）
 
-- 操作卷軸和 DOM 相關屬性、新增 Web Components[（程式碼）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/dom.js)
+- 操作卷軸和 DOM 相關屬性、新增 Web Components。（[程式碼](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/dom.js)）
 
-- 建立事件管理用的 class、實作 debounce 和 throttle[（程式碼）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/event.js)
+- 建立事件管理用的 class、實作 debounce 和 throttle。（[程式碼](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/event.js)）
 
 ### Module Bundler / Dependencies
 

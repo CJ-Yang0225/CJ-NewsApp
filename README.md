@@ -4,7 +4,7 @@
 
 ## Client
 
-原生 [Vanilla.js](http://vanilla-js.com/) 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？
+原生 [Vanilla.js](http://vanilla-js.com/)🤣 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？
 
 ### Features & Technologies
 

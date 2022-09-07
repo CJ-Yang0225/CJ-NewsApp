@@ -4,7 +4,7 @@
 
 ## Client
 
-原生 Vanilla.js 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？
+原生 [Vanilla.js](http://vanilla-js.com/) 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？
 
 ### Features & Technologies
 
@@ -12,23 +12,23 @@
 
 - 使用自己簡單封裝的 [XMLHttpRequest 工具](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/http.js)，發送 AJAX GET 請求，獲取類別（top, entertainment, sports, business, health, technology, science）對應的新聞，預設每頁為 10 筆報導（會根據裝置尺寸調整）。
 
-- 已獲取的資料會利用記憶體快取（memory cache）並附加一個判斷資料是否過期的 timestamp（類似 Cookie 的 `Max-Age`），再將這個加工過的資料儲存至 `localStorage`，設定 5 分鐘後過期，需要重新請求資料，以確保新聞的即時性。
+- 已獲取的資料會利用記憶體快取（memory cache）並附加一個能判斷資料是否過期的 timestamp（類似 Cookie 的 `Max-Age`），再將這個加工過的資料儲存至 `localStorage`，設定 5 分鐘後過期，需要重新請求資料，以確保新聞的即時性。[（程式碼 L67～L127）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L67-L127)
 
-- 標題區塊 `Header` 根據不同頁面顯示相應的訊息和連結。
+- 標題區塊 [`Header`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/Header/index.js) 根據不同頁面顯示相應的訊息和連結。
 
-- 點擊上方導覽列 `Navbar`，更換新聞的類別，並即時更新 URL Search parameters（`?category=technology`），操控瀏覽器歷史紀錄（`history.pushState`）和監聽 `popstate` 事件。
+- 點擊上方導覽列 [`Navbar`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/Navbar/index.js)，更換新聞的類別，並即時更新 URL Search parameters（`?category=technology`），操控瀏覽器歷史紀錄（`history.pushState`）和監聽 `popstate` 事件。
 
-- 點擊新聞卡 `NewsCard` 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；反之用滑鼠中鍵或是 context menu 的「在新分頁中開啟連結」則可重複開啟。
+- 點擊新聞卡 [`NewsCard`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/NewsCard/index.js) 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；另外用滑鼠中鍵或是右鍵（context menu）的「在新分頁中開啟連結」則可重複開啟。
 
-- 啟用圖片 lazy loading 以及增設圖片 `load` 事件，首次載入完成時觸發 fade-in 動畫；若瀏覽器有快取（cache）就用 `HTMLImageElement.complete` 屬性判斷載入完成的時機來觸發 fade-in 動畫。
+- 啟用圖片 lazy loading 以及增設圖片 `load` 事件，首次載入完成時觸發 fade-in 動畫；若瀏覽器有啟用快取（cache）機制則用 `HTMLImageElement.complete` 屬性判斷載入完成的時機來觸發 fade-in 動畫。
 
-- 行動裝置（Mobile device）裝置可透過左、右的滑動手勢來切換新聞類別。
+- 行動裝置（Mobile device）裝置可透過左滑、右滑的手勢切換新聞類別[（程式碼）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/NewsContainer/index.js)。
 
-- 當滾動至底部時觸發 `loadMore()` 載入更多新聞，如果還有資料就加入提示 `PullHint`「載入更多新聞中」，更新頁數並填充下 10 筆報導。
+- 當滾動至底部時觸發 [`loadMoreNews()`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/pages/index.js#L136-L162) 載入更多新聞，如果還有資料就加入提示 [`PullHint`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/PullHint/index.js)「載入更多新聞中」，更新頁數並填充下 10 筆報導。
 
 - 可對想追蹤、收藏的新聞報導點擊書籤圖示，使用 `localStorage` 儲存已收藏的新聞資料陣列，實現跨頁攜帶資料，加到**書籤收藏頁（collection.html）**。
 
-- 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；另一點擊後回到頁面頂部。
+- 固定在左下角的部件組 [`Widgets`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/Widgets/index.js)，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；另一點擊後回到頁面頂部。
 
 - 手機、平板與電腦的 RWD（Responsive Web Design）。
 
@@ -36,13 +36,23 @@
 
 - 取出 `localStorage` 的新聞資料陣列，展示出已收藏的全部新聞報導。
 
-- 點擊新聞卡 `NewsCard` 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；反之用滑鼠中鍵或是 context menu 的「在新分頁中開啟連結」則可重複開啟。
+- 點擊新聞卡 [`NewsCard`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/NewsCard/index.js) 開啟有獨特 name 的分頁，讓點擊相同新聞卡時跳至同樣的分頁，不會重複開啟同一則新聞；另外用滑鼠中鍵或是右鍵（context menu）的「在新分頁中開啟連結」則可重複開啟。
 
 - 可切換成管理模式進行整個 `localStorage` 新聞資料陣列的操作。
 
-- 固定在左下角的部件組 `Widgets`，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；其二點擊後回到頁面頂部。
+- 固定在左下角的部件組 [`Widgets`](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/components/Widgets/index.js)，hover 後會展開內部組件，其一可進行主題模式（theme mode）的切換（預設採用使用者偏好的系統設定 `prefers-color-scheme`）；其二點擊後回到頁面頂部。
 
 - 手機、平板與電腦的 RWD（Responsive Web Design）。
+
+#### 實用的工具函式們（utils）
+
+- 使用 RegExp 注入資料到類 html 格式的自訂 .tpl 檔案[（`injectTpl()`）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L7-L11)
+
+- 幫助整理 object 的結構、URL 的參數、form data 的格式等等[（程式碼 L13～L65）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/data.js#L13-L65)，
+
+- 操作卷軸和 DOM 相關屬性、新增 Web Components[（程式碼）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/dom.js)
+
+- 建立事件管理用的 class、實作 debounce 和 throttle[（程式碼）](https://github.com/CJ-Yang0225/CJ-NewsApp/blob/main/src/utils/event.js)
 
 ### Module Bundler / Dependencies
 

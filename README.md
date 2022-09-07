@@ -2,7 +2,7 @@
 
 有時想看些新聞、時事，但不想被單一媒體的觀點所侷限，所以自製一個新聞的 Web App，藉由串接集成的 [Taiwan News API](https://newsapi.org/s/taiwan-news-api)，獲取各方新聞媒體的報導。
 
-## Client
+## Client [連結](cj-news.vercel.app/)
 
 原生 [Vanilla.js](http://vanilla-js.com/)🤣 撰寫前端 Client App，受到 React.js 和 Vue.js 的啟發，嘗試運用框架的核心理念，自訂 Webpack 環境，打造出專屬的專案架構。一方面可強化原生控制資料、事件、畫面三者的能力，另一方面能反思框架存在的意義、想解決什麼問題呢？
 
@@ -116,7 +116,7 @@
     - [webpack-merge](https://www.npmjs.com/package/webpack-merge)
     - [cross-env](https://www.npmjs.com/package/cross-env)
 
-## Proxy Server
+## Proxy Server [連結](https://cj-news-server.vercel.app)
 
 由於 News API 需要驗證 API Key 才能使用，為避免 API Key 在前端洩漏以及方便後續功能的擴充，所以用 Koa2 架設一個 Proxy Server，簡單路由後使用 Axios 帶上 API Key 到 Request Header 中，然後對目標 API 發送請求，最後獲得所需的新聞資料並回傳給前端。
 
